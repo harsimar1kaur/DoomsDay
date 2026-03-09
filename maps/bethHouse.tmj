@@ -1,0 +1,416 @@
+{ "compressionlevel":-1,
+ "height":12,
+ "infinite":false,
+ "layers":[
+        {
+         "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            2147484463, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         "height":12,
+         "id":7,
+         "name":"shadow",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":12,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[665, 665, 666, 667, 643, 644, 645, 646, 667, 667, 667, 667,
+            665, 665, 666, 667, 668, 669, 670, 671, 672, 672, 672, 672,
+            690, 690, 691, 692, 693, 694, 695, 696, 697, 672, 672, 672,
+            715, 715, 716, 717, 718, 719, 720, 743, 743, 745, 745, 745,
+            740, 740, 741, 742, 743, 744, 745, 746, 743, 745, 745, 745,
+            765, 765, 766, 767, 768, 769, 770, 771, 772, 745, 745, 745,
+            790, 790, 791, 792, 793, 794, 795, 796, 797, 845, 845, 845,
+            0, 815, 816, 817, 818, 819, 820, 821, 822, 845, 845, 845,
+            0, 840, 841, 842, 843, 844, 845, 846, 847, 845, 845, 845,
+            817, 865, 866, 867, 868, 869, 870, 871, 872, 845, 845, 845,
+            817, 818, 818, 818, 818, 818, 818, 818, 818, 818, 818, 845,
+            818, 818, 818, 818, 818, 818, 818, 818, 818, 818, 818, 818],
+         "height":12,
+         "id":6,
+         "name":"Tile Layer 1",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":12,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[0, 0, 0, 0, 668, 669, 670, 671, 1166, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 1189, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 1214, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 1239, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            402, 403, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         "height":12,
+         "id":9,
+         "name":"more decor",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":12,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 963, 964, 965, 966, 967, 0, 0,
+            0, 0, 0, 0, 0, 988, 989, 990, 991, 947, 948, 949,
+            0, 0, 0, 0, 0, 1013, 1014, 1015, 1016, 972, 973, 974,
+            528, 529, 530, 531, 0, 1038, 1039, 1040, 1041, 997, 998, 999,
+            553, 554, 555, 556, 0, 1063, 1064, 1065, 1066, 1022, 1023, 1024,
+            578, 579, 580, 581, 0, 1088, 1089, 1090, 1091, 1047, 1048, 1049,
+            0, 0, 0, 0, 0, 1113, 1114, 1115, 1116, 1117, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         "height":12,
+         "id":8,
+         "name":"decor",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":12,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 1172, 1173, 1174,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 1197, 1198, 1199,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 1222, 1223, 1224,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 1247, 1248, 1249,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         "height":12,
+         "id":10,
+         "name":"more decor",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":12,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[0, 0, 0, 0, 1479, 1480, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 1497, 1498, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            1439, 1440, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            1457, 1458, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 1553, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 1571, 0, 0, 0, 0, 0, 0,
+            0, 1251, 1252, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 1269, 1270, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         "height":12,
+         "id":11,
+         "name":"blood",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":12,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[0, 0, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65,
+            0, 0, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65,
+            0, 0, 65, 0, 0, 0, 0, 0, 0, 0, 65, 65,
+            0, 0, 65, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 65, 0, 0, 0, 0, 65, 65, 0, 0, 0,
+            0, 0, 65, 0, 0, 65, 65, 65, 0, 0, 0, 65,
+            0, 0, 0, 0, 0, 65, 65, 65, 0, 0, 0, 65,
+            0, 0, 0, 0, 0, 0, 0, 65, 65, 0, 0, 65,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         "height":12,
+         "id":12,
+         "name":"Collision",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":false,
+         "width":12,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":13,
+         "name":"spawn",
+         "objects":[
+                {
+                 "height":16,
+                 "id":2,
+                 "name":"HouseSpawn",
+                 "properties":[
+                        {
+                         "name":"entity",
+                         "type":"string",
+                         "value":"player"
+                        }, 
+                        {
+                         "name":"facing",
+                         "type":"string",
+                         "value":"up"
+                        }, 
+                        {
+                         "name":"name ",
+                         "type":"string",
+                         "value":"HouseSpawn"
+                        }, 
+                        {
+                         "name":"spawn_od",
+                         "type":"string",
+                         "value":"start"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":87.6666666666667,
+                 "y":174.333333333333
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":14,
+         "name":"dialog",
+         "objects":[
+                {
+                 "height":25.3333,
+                 "id":3,
+                 "name":"blood",
+                 "properties":[
+                        {
+                         "name":"duration",
+                         "type":"string",
+                         "value":"5000"
+                        }, 
+                        {
+                         "name":"text",
+                         "type":"string",
+                         "value":"Beth?? Are you in here?"
+                        }, 
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"dialog"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32.6969,
+                 "x":80.15155,
+                 "y":165.83335
+                }, 
+                {
+                 "height":25.3333,
+                 "id":4,
+                 "name":"blood",
+                 "properties":[
+                        {
+                         "name":"duration",
+                         "type":"string",
+                         "value":"5000"
+                        }, 
+                        {
+                         "name":"text",
+                         "type":"string",
+                         "value":"So much blood...BETHHH?!!!"
+                        }, 
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"dialog"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32.6969,
+                 "x":5.31821666666667,
+                 "y":120.000016666667
+                }, 
+                {
+                 "height":25.3333,
+                 "id":5,
+                 "name":"blood",
+                 "properties":[
+                        {
+                         "name":"duration",
+                         "type":"string",
+                         "value":"5000"
+                        }, 
+                        {
+                         "name":"text",
+                         "type":"string",
+                         "value":"BETH ARE YOU OKAY??!"
+                        }, 
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"dialog"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32.6969,
+                 "x":1.65155,
+                 "y":50.0000166666667
+                }, 
+                {
+                 "height":17.6666333333333,
+                 "id":6,
+                 "name":"blood",
+                 "properties":[
+                        {
+                         "name":"duration",
+                         "type":"string",
+                         "value":"5000"
+                        }, 
+                        {
+                         "name":"text",
+                         "type":"string",
+                         "value":"She left the tv on..."
+                        }, 
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"dialog"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":21.6969,
+                 "x":149.318216666667,
+                 "y":101.666683333333
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":15,
+         "name":"portal",
+         "objects":[
+                {
+                 "height":0,
+                 "id":7,
+                 "name":"Bethroom",
+                 "properties":[
+                        {
+                         "name":"targetMap",
+                         "type":"string",
+                         "value":"Bethroom.tmj"
+                        }, 
+                        {
+                         "name":"targetSpawn",
+                         "type":"string",
+                         "value":"roomSpawn"
+                        }, 
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"portal"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":16,
+                 "y":2
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }],
+ "nextlayerid":16,
+ "nextobjectid":8,
+ "orientation":"orthogonal",
+ "renderorder":"right-down",
+ "tiledversion":"1.11.2",
+ "tileheight":16,
+ "tilesets":[
+        {
+         "columns":25,
+         "firstgid":1,
+         "image":"..\/Room\/top down living room 1 .png",
+         "imageheight":400,
+         "imagewidth":400,
+         "margin":0,
+         "name":"top down living room 1 ",
+         "spacing":0,
+         "tilecount":625,
+         "tileheight":16,
+         "tilewidth":16
+        }, 
+        {
+         "columns":25,
+         "firstgid":626,
+         "image":"..\/Room\/top down living room 2.png",
+         "imageheight":400,
+         "imagewidth":400,
+         "margin":0,
+         "name":"top down living room 2",
+         "spacing":0,
+         "tilecount":625,
+         "tileheight":16,
+         "tilewidth":16
+        }, 
+        {
+         "columns":18,
+         "firstgid":1251,
+         "image":"..\/Room\/32 no outline.png",
+         "imageheight":288,
+         "imagewidth":288,
+         "margin":0,
+         "name":"32 no outline",
+         "spacing":0,
+         "tilecount":324,
+         "tileheight":16,
+         "tilewidth":16
+        }],
+ "tilewidth":16,
+ "type":"map",
+ "version":"1.10",
+ "width":12
+}

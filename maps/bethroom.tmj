@@ -1,0 +1,241 @@
+{ "compressionlevel":-1,
+ "height":11,
+ "infinite":false,
+ "layers":[
+        {
+         "data":[56, 56, 53, 54, 55, 52, 56, 56, 56, 56, 56,
+            56, 52, 53, 54, 55, 52, 56, 56, 56, 56, 56,
+            56, 52, 53, 54, 55, 52, 56, 56, 56, 56, 56,
+            178, 102, 103, 104, 105, 106, 178, 178, 155, 155, 155,
+            178, 127, 128, 129, 130, 131, 178, 155, 155, 155, 155,
+            178, 152, 153, 154, 155, 156, 178, 155, 155, 155, 155,
+            178, 178, 178, 178, 178, 178, 178, 155, 155, 155, 155,
+            178, 202, 203, 204, 205, 178, 178, 155, 155, 155, 155,
+            155, 155, 155, 155, 155, 155, 155, 155, 155, 155, 155,
+            155, 155, 155, 155, 155, 155, 155, 155, 155, 155, 155,
+            155, 155, 155, 155, 155, 155, 155, 155, 155, 155, 155],
+         "height":11,
+         "id":2,
+         "name":"mainfloor",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":11,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[0, 0, 0, 0, 0, 0, 196, 197, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 221, 222, 2147483689, 2147483688, 2147483687,
+            467, 468, 469, 470, 0, 0, 246, 247, 2147483714, 2147483713, 2147483712,
+            492, 493, 494, 495, 0, 0, 271, 272, 2147483739, 2147483738, 2147483737,
+            762, 763, 764, 765, 0, 0, 0, 0, 0, 0, 0,
+            790, 791, 792, 793, 0, 0, 0, 0, 0, 0, 0,
+            818, 819, 820, 821, 0, 0, 0, 0, 0, 0, 0,
+            846, 847, 848, 849, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         "height":11,
+         "id":1,
+         "name":"decor",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":11,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[0, 670, 671, 672, 673, 0, 0, 786, 787, 788, 789,
+            0, 698, 699, 700, 701, 0, 0, 814, 815, 816, 817,
+            0, 726, 727, 728, 729, 0, 0, 842, 843, 844, 845,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            189, 190, 191, 0, 0, 0, 0, 0, 0, 0, 0,
+            214, 215, 216, 0, 0, 0, 0, 0, 0, 0, 0,
+            239, 240, 241, 0, 0, 0, 0, 0, 0, 0, 0],
+         "height":11,
+         "id":5,
+         "name":"books",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":11,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":6,
+         "name":"dialog",
+         "objects":[
+                {
+                 "height":74,
+                 "id":2,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"duration",
+                         "type":"int",
+                         "value":5000
+                        }, 
+                        {
+                         "name":"text",
+                         "type":"string",
+                         "value":"BETH NOOOOOO!!!!!!"
+                        }, 
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"dialog"
+                        }],
+                 "rotation":0,
+                 "type":"First zombie speech",
+                 "visible":true,
+                 "width":81.3333333333334,
+                 "x":69.6666666666667,
+                 "y":95.3333333333333
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":4,
+         "name":"spawn",
+         "objects":[
+                {
+                 "height":16,
+                 "id":1,
+                 "name":"HouseSpawn",
+                 "properties":[
+                        {
+                         "name":"entity",
+                         "type":"string",
+                         "value":"player"
+                        }, 
+                        {
+                         "name":"facing",
+                         "type":"string",
+                         "value":"up"
+                        }, 
+                        {
+                         "name":"name ",
+                         "type":"string",
+                         "value":"roomSpawn"
+                        }, 
+                        {
+                         "name":"spawn_od",
+                         "type":"string",
+                         "value":"start"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":159.5,
+                 "y":159.333333333333
+                }, 
+                {
+                 "height":27.6666666666667,
+                 "id":3,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"zombie"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":30,
+                 "x":13.6666666666667,
+                 "y":82
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[240, 240, 240, 240, 240, 240, 240, 240, 240, 240, 240,
+            240, 240, 240, 240, 240, 240, 240, 240, 240, 240, 240,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            240, 240, 240, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            240, 240, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            240, 240, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         "height":11,
+         "id":7,
+         "name":"Collision",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":false,
+         "width":11,
+         "x":0,
+         "y":0
+        }],
+ "nextlayerid":8,
+ "nextobjectid":4,
+ "orientation":"orthogonal",
+ "renderorder":"right-down",
+ "tiledversion":"1.11.2",
+ "tileheight":16,
+ "tilesets":[
+        {
+         "columns":25,
+         "firstgid":1,
+         "image":"..\/Room\/top down bed room assets .png",
+         "imageheight":400,
+         "imagewidth":400,
+         "margin":0,
+         "name":"top down bed room assets ",
+         "spacing":0,
+         "tilecount":625,
+         "tileheight":16,
+         "tilewidth":16
+        }, 
+        {
+         "columns":28,
+         "firstgid":626,
+         "image":"..\/Room\/64 no outline.png",
+         "imageheight":384,
+         "imagewidth":448,
+         "margin":0,
+         "name":"64 no outline",
+         "spacing":0,
+         "tilecount":672,
+         "tileheight":16,
+         "tilewidth":16
+        }, 
+        {
+         "columns":25,
+         "firstgid":1298,
+         "image":"..\/Room\/top down more assets .png",
+         "imageheight":400,
+         "imagewidth":400,
+         "margin":0,
+         "name":"top down more assets ",
+         "spacing":0,
+         "tilecount":625,
+         "tileheight":16,
+         "tilewidth":16
+        }],
+ "tilewidth":16,
+ "type":"map",
+ "version":"1.10",
+ "width":11
+}

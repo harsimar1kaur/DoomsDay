@@ -1,5 +1,5 @@
 // Entry point: loads assets, then starts the game.
-const DEBUG_MODE = true;
+const DEBUG_MODE = false;
 const DEBUG_WEAPON = false;
 const gameEngine = new GameEngine({ cameraDebug: true, debugging: DEBUG_MODE });
 gameEngine.debug = DEBUG_MODE;
@@ -138,8 +138,9 @@ function isMapZombieEnabled(mapPath, mapData) {
   const path = (mapPath || "").toLowerCase();
   // Bedroom/inside map is always safe.
   if (path.includes("bedroom")) return false;
+  if (path.includes("bethhouse")) return false;
   return true;
-}
+  }
 
 function isZombieSpawnValid(x, y, zombieWidth, zombieHeight, player) {
   if (x < 0 || y < 0) return false;
@@ -222,15 +223,17 @@ async function setupWorld(mapPath, spawnName) {
     const notebook = new Notebook(gameEngine);
     const teleportPrompt = new TeleportPrompt(gameEngine);
     const hintArrow = new HintArrow(gameEngine);
+    const inventory = new Inventory(gameEngine);
 
     gameEngine.notebook = notebook;
     gameEngine.teleportPrompt = teleportPrompt;
     gameEngine.hintArrow = hintArrow;
-    
+    gameEngine.inventory = inventory;
 
     gameEngine.entities.unshift(notebook);
     gameEngine.entities.unshift(teleportPrompt);
     gameEngine.entities.unshift(hintArrow);
+    gameEngine.entities.unshift(inventory);
 
    gameEngine.cameraTarget = player;
    gameEngine.addEntity(player);
