@@ -1330,6 +1330,38 @@
                  "width":16,
                  "x":393.704545454545,
                  "y":185.011818181818
+                }, 
+                {
+                 "height":16,
+                 "id":57,
+                 "name":"WaterSpawn",
+                 "properties":[
+                        {
+                         "name":"entity",
+                         "type":"string",
+                         "value":"player"
+                        }, 
+                        {
+                         "name":"facing",
+                         "type":"string",
+                         "value":"down"
+                        }, 
+                        {
+                         "name":"name ",
+                         "type":"string",
+                         "value":"WaterSpawn"
+                        }, 
+                        {
+                         "name":"spawn_od",
+                         "type":"string",
+                         "value":"start"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":32.3333333333333,
+                 "y":895.333333333333
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1789,7 +1821,7 @@
          "y":0
         }],
  "nextlayerid":31,
- "nextobjectid":57,
+ "nextobjectid":58,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",

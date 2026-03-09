@@ -7,7 +7,7 @@ gameEngine.debugWeapon = DEBUG_WEAPON;
 const ASSET_MANAGER = new AssetManager();
 
 // Starting map + player config.
-const MAP_PATH = "./maps/bedroom.tmj";
+const MAP_PATH = "./maps/sewer.tmj";
 const BAT_SPRITE_PATH = "./PostApocalypse_AssetPack_v1.1.2/Objects/Pickable/Bat.png";
 const KNIFE_SPRITE_PATH = "./PostApocalypse_AssetPack_v1.1.2/Objects/Pickable/Knife.png";
 const MAP_SCALE = 4;
