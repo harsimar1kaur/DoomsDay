@@ -305,7 +305,50 @@ class TiledMapRenderer {
         return acc;
       }, {})
     }));
+
+    this.animatedTiles = new Map();
+    this.buildAnimatedTiles();
   }
+
+    buildAnimatedTiles() {
+    for (const tileset of this.tilesets) {
+      for (const tile of (tileset.tiles || [])) {
+        if (!tile.animation || tile.animation.length === 0) continue;
+
+        const animatedGid = tileset.firstgid + tile.id;
+
+        const frames = tile.animation.map(frame => ({
+          gid: tileset.firstgid + frame.tileid,
+          duration: frame.duration / 1000
+        }));
+
+        const totalDuration = frames.reduce((sum, frame) => sum + frame.duration, 0);
+
+        this.animatedTiles.set(animatedGid, {
+          frames,
+          totalDuration
+        });
+      }
+    }
+  }
+
+  getAnimatedGid(gid) {
+    const anim = this.animatedTiles.get(gid);
+    if (!anim) return gid;
+
+    const total = anim.totalDuration;
+    if (!total || total <= 0) return gid;
+
+    let t = this.game.timer ? (this.game.timer.gameTime % total) : 0;
+
+    for (const frame of anim.frames) {
+      if (t < frame.duration) return frame.gid;
+      t -= frame.duration;
+    }
+
+    return anim.frames[anim.frames.length - 1].gid;
+  }
+
 
   update() {}
 
@@ -344,9 +387,11 @@ draw(ctx) {
     for (let row = startRow; row <= endRow; row++) {
       for (let col = startCol; col <= endCol; col++) {
         const i = row * layerW + col;
-        const rawGid = layer.data[i];          // may include rotate/flip bits
-        const gid = rawGid & 0x1FFFFFFF;       // strip Tiled flags
-        if (gid === 0) continue;
+        const rawGid = layer.data[i];              // may include rotate/flip bits
+        const baseGid = rawGid & 0x1FFFFFFF;       // strip Tiled flags
+        if (baseGid === 0) continue;
+
+        const gid = this.getAnimatedGid(baseGid);
 
         const tileset = this.getTilesetForGid(gid);
         if (!tileset) continue;
@@ -625,8 +670,7 @@ class MapManager {
     }
   }
 
-  // Checks portal overlap each frame.
- update() {
+update() {
   if (!this.mapData) return;
 
   if (this.portalCooldown > 0) {
@@ -649,36 +693,40 @@ class MapManager {
       this.transitionTo(portal);
       break;
     }
+  }
 
-    for (const dialog of this.dialogs) {
-      if (this.usedTriggers.has(dialog.id)) continue;
-      const dialogRect = this.getTriggerRect(dialog);
-      const overlap = rectsOverlap(playerBounds, dialogRect);
-      if (overlap) {
-        const text = getObjectProperty(dialog, "text") || "...";
-        const durationMs = getObjectProperty(dialog, "duration") || 5000;
-        this.activeDialog = { text, timeLeftMs: durationMs };
-        this.game.activeDialog = this.activeDialog;
-        this.usedTriggers.add(dialog.id);
-        console.log("Dialog triggered:", dialog.name || "(unnamed)", text);
-        break;
-      }
+  // --- dialog object logic ---
+  for (const dialog of this.dialogs) {
+    if (this.usedTriggers.has(dialog.id)) continue;
+
+    const dialogRect = this.getTriggerRect(dialog);
+    const overlap = rectsOverlap(playerBounds, dialogRect);
+
+    if (overlap) {
+      const text = getObjectProperty(dialog, "text") || "...";
+      const durationMs = getObjectProperty(dialog, "duration") || 5000;
+
+      this.activeDialog = { text, timeLeftMs: durationMs };
+      this.game.activeDialog = this.activeDialog;
+      this.usedTriggers.add(dialog.id);
+
+      console.log("Dialog triggered:", dialog.name || "(unnamed)", text);
+      break;
     }
   }
 
-  // --- dialogue logic (REUSE same playerBounds) ---
+  // --- extra dialogueTriggers logic ---
   for (const trigger of this.dialogueTriggers || []) {
     if (trigger.once && this.dialogueUsedGroups.has(trigger.group)) continue;
 
     if (rectsOverlap(playerBounds, trigger.rect)) {
-    this.game.activeDialog = { text: trigger.text, timeLeftMs: 5000 };
+      this.game.activeDialog = { text: trigger.text, timeLeftMs: 5000 };
 
-    if (trigger.once) {
-    this.dialogueUsedGroups.add(trigger.group);
-  }
-  break;
-}
-
+      if (trigger.once) {
+        this.dialogueUsedGroups.add(trigger.group);
+      }
+      break;
+    }
   }
 }
 

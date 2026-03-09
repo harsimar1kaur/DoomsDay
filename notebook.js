@@ -27,7 +27,9 @@ class Notebook {
   getAliveZombies() {
     const ents = this.game.entities || [];
     return ents.filter(e =>
-      e && e.constructor && e.constructor.name === "Zombie" &&
+      e &&
+      e.constructor &&
+      e.constructor.name === "Zombie" &&
       !e.removeFromWorld &&
       e.state !== "death"
     ).length;
@@ -55,7 +57,8 @@ class Notebook {
       return {
         title: "Notebook",
         lines: [
-          `☐ Kill the three zombies near you. (${alive} remaining)`
+          `☐ Kill the three zombies near you. (${alive} remaining)`,
+          "☐ Reach the sewer cover."
         ],
         footer: "Press N to close."
       };

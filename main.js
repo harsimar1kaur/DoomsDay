@@ -215,15 +215,21 @@ async function setupWorld(mapPath, spawnName) {
     };
 
     mapManager.setMap(mapData, mapPath, spawnName);
-
     const notebook = new Notebook(gameEngine);
+    const hintArrow = new HintArrow(gameEngine);
+
+    gameEngine.notebook = notebook;
+    gameEngine.hintArrow = hintArrow;
+
     gameEngine.entities.unshift(notebook);
+    gameEngine.entities.unshift(hintArrow);
+
     gameEngine.cameraTarget = player;
     gameEngine.addEntity(player);
+
     // Map manager is added last because engine draws in reverse order.
     // This makes the map draw first (background), then zombies, then player.
     gameEngine.addEntity(mapManager);
-
     currentPlayer = player;
     currentMapManager = mapManager;
     spawnPickupsForMap(player, mapData, mapPath);

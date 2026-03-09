@@ -337,10 +337,17 @@ handleTopRightUiClick() {
         this.ctx.fillStyle = "rgba(255,255,255,0.85)";
         this.ctx.textAlign = "center";
         this.ctx.textBaseline = "top";
-        this.ctx.fillText("Press N: Notebook",
-        rects.restart.x + rects.restart.width / 2,
-        rects.restart.y + rects.restart.height + 6
-        );
+
+        const centerX = rects.restart.x + rects.restart.width / 2;
+        const firstY = rects.restart.y + rects.restart.height + 6;
+
+        this.ctx.fillText("Press N: Notebook", centerX, firstY);
+
+        const hintOn = this.hintArrow && this.hintArrow.active;
+        this.ctx.fillText("Press N: Notebook", centerX, firstY);
+
+        this.ctx.fillText("Press C: Compass", centerX, firstY + 16);
+        this.ctx.fillText(`${hintOn ? "ON" : "OFF"}`, centerX, firstY + 32);
 
         this.ctx.restore();
     }
