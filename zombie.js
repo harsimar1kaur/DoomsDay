@@ -288,7 +288,7 @@ drawHealthBar(ctx) {
   const width = this.isBoss ? 70 : 30;
   const height = this.isBoss ? 8 : 4;
   const x = this.x + (this.width - width) / 2;
-  const y = this.y - (this.isBoss ? 16 : 8);
+  const y = this.y - (this.isBoss ? 10 : 8);
   const ratio = this.maxHealth > 0 ? this.health / this.maxHealth : 0;
 
   ctx.save();

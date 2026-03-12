@@ -306,7 +306,8 @@ class Player {
   const weapon = this.getEquippedWeaponDef();      // may be null
 
   for (const zombie of zombies) {
-    if (this.punchHitIds.has(zombie.id)) continue;
+    // Track by object reference so bosses without numeric ids can still be hit.
+    if (this.punchHitIds.has(zombie)) continue;
     if (!this.isZombieInAttackRange(zombie, attack.range)) continue;
 
     // If a weapon has a custom attack() use it, otherwise do normal damage.
@@ -315,9 +316,7 @@ class Player {
         ? weapon.attack(zombie)
         : zombie.takeDamage(attack.damage, this);
 
-    if (applied) {
-      this.punchHitIds.add(zombie.id);
-    }
+    if (applied) this.punchHitIds.add(zombie);
   }
 }
 
@@ -336,12 +335,31 @@ class Player {
   isZombieInAttackRange(zombie, attackRange) {
     const playerCenterX = this.x + this.width / 2;
     const playerCenterY = this.y + this.height / 2;
-    const zombieCenterX = zombie.x + zombie.width / 2;
-    const zombieCenterY = zombie.y + zombie.height / 2;
-    const dx = zombieCenterX - playerCenterX;
-    const dy = zombieCenterY - playerCenterY;
-    const dist = Math.hypot(dx, dy);
+
+    // Prefer visual bounds for scaled bosses (ex: Beth), fallback to normal hitbox.
+    const targetWidth =
+      typeof zombie.drawScale === "number" && zombie.drawScale > 0
+        ? 128 * zombie.drawScale
+        : zombie.width;
+    const targetHeight =
+      typeof zombie.drawScale === "number" && zombie.drawScale > 0
+        ? 128 * zombie.drawScale
+        : zombie.height;
+    const targetX = zombie.x;
+    const targetY = zombie.y;
+
+    // Distance to closest point on target rectangle (better than center-only checks).
+    const nearestX = Math.max(targetX, Math.min(playerCenterX, targetX + targetWidth));
+    const nearestY = Math.max(targetY, Math.min(playerCenterY, targetY + targetHeight));
+    const deltaX = nearestX - playerCenterX;
+    const deltaY = nearestY - playerCenterY;
+    const dist = Math.hypot(deltaX, deltaY);
     if (dist > attackRange) return false;
+
+    const targetCenterX = targetX + targetWidth / 2;
+    const targetCenterY = targetY + targetHeight / 2;
+    const dx = targetCenterX - playerCenterX;
+    const dy = targetCenterY - playerCenterY;
 
     // Keep temporary combat modular: this directional check can be swapped later for weapon arcs.
     if (this.direction === "right") return dx >= -6;
