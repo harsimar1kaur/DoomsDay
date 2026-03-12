@@ -31,6 +31,15 @@ toggle() {
   
 
   getObjectiveSignature() {
+    const path = String(this.game.currentMapPath || "").toLowerCase();
+    if (path.includes("bedroom") || path === "") {
+      return `objective:bedroom:${this.windowChecked() ? 1 : 0}:${this.playerHasWeapon() ? 1 : 0}`;
+    }
+    if (this.game.bossDefeated) {
+      const alive = this.getAliveZombies();
+      const total = this.game.zombieObjectiveTotal || alive;
+      return `objective:clear_remaining:${alive}/${total}`;
+    }
     if (this.game.hasSewerKey) return "objective:return_beth_house";
     if (this.game.hasTriedBethDoor) return "objective:check_sewer_key";
     return "objective:check_on_beth";
@@ -76,6 +85,39 @@ toggle() {
 }
 
   getObjectives() {
+    const path = String(this.game.currentMapPath || "").toLowerCase();
+    if (path.includes("bedroom") || path === "") {
+      return {
+        title: "Notebook",
+        lines: [
+          "☐ Check the window!!",
+          "☐ Grab a weapon from your room.",
+          "☐ Leave the bedroom."
+        ],
+        footer: "Finish tasks before leaving."
+      };
+    }
+
+    if (this.game.bossDefeated) {
+      const alive = this.getAliveZombies();
+      const total = Math.max(this.game.zombieObjectiveTotal || 0, alive);
+      this.game.zombieObjectiveTotal = total;
+
+      if (alive <= 0) {
+        return {
+          title: "Notebook",
+          lines: ["☑ Kill all remaining zombies in the area (0/0)", "☐ Escape the area"],
+          footer: "Area cleared. Find the way out."
+        };
+      }
+
+      return {
+        title: "Notebook",
+        lines: [`☐ Kill all remaining zombies in the area (${alive}/${total})`],
+        footer: "Clear them all to escape."
+      };
+    }
+
     let objective = "Check on Beth";
     if (this.game.hasSewerKey) objective = "Return to Beth's house";
     else if (this.game.hasTriedBethDoor) objective = "Check the sewer for the key";
@@ -156,9 +198,16 @@ toggle() {
     ctx.font = "20px Arial";
     let ty = y + 105;
     let index = 0;
+    const path = String(this.game.currentMapPath || "").toLowerCase();
+    const bedroomReady = this.windowChecked() && this.playerHasWeapon();
 
     for (const line of lines) {
-      let completed = false;
+      let completed = line.trim().startsWith("☑");
+      if (!completed && (path.includes("bedroom") || path === "")) {
+        if (index === 0) completed = this.windowChecked();
+        if (index === 1) completed = this.playerHasWeapon();
+        if (index === 2) completed = bedroomReady;
+      }
 
       const text = completed ? line.replace("☐", "☑") : line;
 

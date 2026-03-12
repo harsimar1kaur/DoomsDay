@@ -566,6 +566,18 @@ class MapManager {
     return onMainForest && portalName === "backtohouse" && targetMap.includes("bethhouse");
   }
 
+  isBedroomExitPortal(portal) {
+    const targetMap = String(getObjectProperty(portal, "targetMap") || "").toLowerCase();
+    const onBedroom = String(this.mapPath || "").toLowerCase().includes("bedroom");
+    return onBedroom && targetMap.includes("mainforest");
+  }
+
+  canLeaveBedroom() {
+    const hasWeapon =
+      !!(this.player && this.player.hasItem && (this.player.hasItem("bat") || this.player.hasItem("knife")));
+    return !!this.game.checkedWindow && hasWeapon;
+  }
+
   isDoorInteractPressed() {
     return !!(this.player && (this.player.interactPressed || this.game.keys[" "]));
   }
@@ -723,6 +735,14 @@ for (const portal of this.portals) {
   }
 
   if (overlap && this.portalCooldown <= 0 && this.activePortalId !== portal.id) {
+    if (this.isBedroomExitPortal(portal) && !this.canLeaveBedroom()) {
+      if (this.isDoorInteractPressed()) {
+        this.game.showDialogue("I should check the window and grab a weapon first.", 2400);
+      }
+      this.portalCooldown = 0.35;
+      continue;
+    }
+
     if (this.isBethHouseDoorPortal(portal)) {
       const hasBethKey = !!(this.player && this.player.hasItem && this.player.hasItem("beth_house_key"));
       const unlocked = !!this.game.bethDoorUnlocked;

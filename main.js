@@ -30,6 +30,17 @@ function removeZombies() {
   );
 }
 
+function getAliveZombieCount() {
+  return (gameEngine.entities || []).filter(
+    (e) =>
+      e &&
+      e.constructor &&
+      e.constructor.name === "Zombie" &&
+      !e.removeFromWorld &&
+      e.state !== "death"
+  ).length;
+}
+
 function removePickups() {
   gameEngine.entities = gameEngine.entities.filter(
     (e) => !(e && e.constructor && e.constructor.name === "ItemPickup")
@@ -252,6 +263,8 @@ async function setupWorld(mapPath, spawnName) {
   gameEngine.keys = {};
   gameEngine.pendingTeleport = null;
   gameEngine.zombiesEnabled = false;
+  gameEngine.bossDefeated = false;
+  gameEngine.zombieObjectiveTotal = 0;
 
   if (!gameEngine.collectedItems) {
     gameEngine.collectedItems = new Set();
@@ -272,6 +285,12 @@ async function setupWorld(mapPath, spawnName) {
       gameEngine.zombiesEnabled = isMapZombieEnabled(newMapPath, newMapData);
       spawnZombies(player, newMapPath, newMapData);
       spawnPickupsForMap(player, newMapData, newMapPath);
+      if (gameEngine.bossDefeated && gameEngine.zombiesEnabled) {
+        gameEngine.zombieObjectiveTotal = Math.max(
+          gameEngine.zombieObjectiveTotal || 0,
+          getAliveZombieCount()
+        );
+      }
     };
     gameEngine.onStoryItemCollected = onStoryItemCollected;
 
@@ -372,6 +391,8 @@ async function loadGame() {
       gameEngine.hasTriedBethDoor = false;
       gameEngine.hasSewerKey = false;
       gameEngine.bethDoorUnlocked = false;
+      gameEngine.bossDefeated = false;
+      gameEngine.zombieObjectiveTotal = 0;
 
       // optional: stop music on main screen
       if (typeof AudioEngine !== "undefined") {
