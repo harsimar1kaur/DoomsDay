@@ -6,6 +6,7 @@ function spawnZombiesFromMap(game, mapData, mapScale) {
   }
 
   const spawned = [];
+
   const variants = [
     {
       name: "small",
@@ -39,11 +40,15 @@ function spawnZombiesFromMap(game, mapData, mapScale) {
 
   const walk = (layers) => {
     for (const layer of layers || []) {
-      if (layer.type === "group" && layer.layers) walk(layer.layers);
+
+      if (layer.type === "group" && layer.layers) {
+        walk(layer.layers);
+      }
 
       if (layer.type !== "objectgroup") continue;
 
       for (const obj of layer.objects || []) {
+
         const markerRaw =
           getObjectProperty(obj, "type") ||
           getObjectProperty(obj, "entity") ||
@@ -53,15 +58,31 @@ function spawnZombiesFromMap(game, mapData, mapScale) {
           "";
 
         const marker = String(markerRaw).trim().toLowerCase();
-        if (!marker.includes("zombie")) continue;
 
         const x = obj.x * mapScale;
         const y = obj.y * mapScale;
-
         const facing = getObjectProperty(obj, "facing") || "down";
         const player = game.cameraTarget;
 
-        // Pick a random zombie type
+        // -------------------------
+        // BOSS SPAWN (Beth)
+        // -------------------------
+        if (marker.includes("boss")) {
+
+  const boss = new BethBoss(game, player, x, y);
+
+  game.addEntity(boss);
+  spawned.push(boss);
+
+  console.log("[SPAWNED] Beth Boss at", x, y);
+  continue;
+}
+
+        // -------------------------
+        // NORMAL ZOMBIES
+        // -------------------------
+        if (!marker.includes("zombie")) continue;
+
         const v = pickRandom(variants);
 
         const z = new Zombie(game, player, x, y, {
@@ -74,7 +95,6 @@ function spawnZombiesFromMap(game, mapData, mapScale) {
           height: v.height
         });
 
-        // Apply visual size
         z.width = v.width;
         z.height = v.height;
 

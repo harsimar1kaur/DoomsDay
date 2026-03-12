@@ -295,8 +295,12 @@ class Player {
   applyPunchDamage() {
   // Allow ALL attack types (punch / bat / knife) to deal damage.
   const zombies = (this.game.entities || []).filter(
-    (e) => e && e.constructor && e.constructor.name === "Zombie" && !e.removeFromWorld
-  );
+  (e) =>
+    e &&
+    e.constructor &&
+    (e.constructor.name === "Zombie" || e.constructor.name === "BethBoss") &&
+    !e.removeFromWorld
+);
 
   const attack = this.getAttackProfile();          // { id, damage, range }
   const weapon = this.getEquippedWeaponDef();      // may be null
@@ -369,10 +373,15 @@ class Player {
     if (!this.game.zombiesEnabled) return false;
 
     // Safety guards: health can only drop from a real zombie attack.
-    const zombies = (this.game.entities || []).filter((e) => e && e.constructor && e.constructor.name === "Zombie");
+    const zombies = (this.game.entities || []).filter(
+    (e) =>
+      e &&
+      e.constructor &&
+      (e.constructor.name === "Zombie" || e.constructor.name === "BethBoss")
+    );
     if (zombies.length === 0) return false;
-    if (!attacker || attacker.constructor.name !== "Zombie") return false;
-    if (!zombies.includes(attacker)) return false;
+    if (!attacker || (attacker.constructor.name !== "Zombie" && attacker.constructor.name !== "BethBoss")) return false;
+        if (!zombies.includes(attacker)) return false;
 
     const dx = this.x - attacker.x;
     const dy = this.y - attacker.y;

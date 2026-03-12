@@ -7,7 +7,7 @@ gameEngine.debugWeapon = DEBUG_WEAPON;
 const ASSET_MANAGER = new AssetManager();
 
 // Starting map + player config.
-const MAP_PATH = "./maps/bedroom.tmj";
+const MAP_PATH = "./maps/bethroom.tmj";
 const BAT_SPRITE_PATH = "./PostApocalypse_AssetPack_v1.1.2/Objects/Pickable/Bat.png";
 const KNIFE_SPRITE_PATH = "./PostApocalypse_AssetPack_v1.1.2/Objects/Pickable/Knife.png";
 const KEY_SPRITE_PATH = "./Room/sewerkey.png";
@@ -26,7 +26,12 @@ function normalizeItemId(itemId) {
 
 function removeZombies() {
   gameEngine.entities = gameEngine.entities.filter(
-    (e) => !(e && e.constructor && e.constructor.name === "Zombie")
+   (e) =>
+  !(
+    e &&
+    e.constructor &&
+    (e.constructor.name === "Zombie" || e.constructor.name === "BethBoss")
+  )
   );
 }
 
@@ -351,6 +356,13 @@ async function loadGame() {
   ASSET_MANAGER.queueDownload("./sprites/character/punch/Character_up_punch-Sheet4.png");
   ASSET_MANAGER.queueDownload("./sprites/character/punch/Character_side-left_punch-Sheet4.png");
   ASSET_MANAGER.queueDownload("./sprites/character/punch/Character_side_punch-Sheet4.png");
+
+  ASSET_MANAGER.queueDownload("./Room/ZombieWoman/Zombie - Idle.png");
+  ASSET_MANAGER.queueDownload("./Room/ZombieWoman/Zombie - Walk.png");
+  ASSET_MANAGER.queueDownload("./Room/ZombieWoman/Zombie - Run.png");
+  ASSET_MANAGER.queueDownload("./Room/ZombieWoman/Zombie - Attack.png");
+  ASSET_MANAGER.queueDownload("./Room/ZombieWoman/Zombie - Hit.png");
+  ASSET_MANAGER.queueDownload("./Room/ZombieWoman/Zombie - Death.png");
 
   ASSET_MANAGER.queueDownload("./PostApocalypse_AssetPack_v1.1.2/Character/Bat/Bat_down_idle-and-run-Sheet6.png");
   ASSET_MANAGER.queueDownload("./PostApocalypse_AssetPack_v1.1.2/Character/Bat/Bat_up_idle-and-run-Sheet6.png");

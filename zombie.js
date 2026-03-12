@@ -39,6 +39,8 @@ class Zombie {
     // Sprite + animation
     this.variant = options.variant || "small";
     this.skin = ZOMBIE_SKINS[this.variant];
+    this.isBoss = !!options.isBoss;
+    this.bossName = options.bossName || "";
 
     this.state = "walk"; // walk | attack | idle
     this.attackType = Math.random() < 0.5 ? "first" : "second";
@@ -279,26 +281,35 @@ draw(ctx) {
   this.drawHealthBar(ctx);
 }
 
-  drawHealthBar(ctx) {
-    if (!this.showHealthBar || this.removeFromWorld) return;
-    if (this.state === "death") return;
-    const width = 30;
-    const height = 4;
-    const x = this.x + (this.width - width) / 2;
-    const y = this.y - 8;
-    const ratio = this.maxHealth > 0 ? this.health / this.maxHealth : 0;
+drawHealthBar(ctx) {
+  if (!this.showHealthBar || this.removeFromWorld) return;
+  if (this.state === "death") return;
 
-    ctx.save();
-    ctx.fillStyle = "rgba(0,0,0,0.7)";
-    ctx.fillRect(x - 1, y - 1, width + 2, height + 2);
+  const width = this.isBoss ? 70 : 30;
+  const height = this.isBoss ? 8 : 4;
+  const x = this.x + (this.width - width) / 2;
+  const y = this.y - (this.isBoss ? 16 : 8);
+  const ratio = this.maxHealth > 0 ? this.health / this.maxHealth : 0;
 
-    ctx.fillStyle = "#7a1111";
-    ctx.fillRect(x, y, width, height);
+  ctx.save();
+  ctx.fillStyle = "rgba(0,0,0,0.7)";
+  ctx.fillRect(x - 1, y - 1, width + 2, height + 2);
 
-    ctx.fillStyle = "#5cff5c";
-    ctx.fillRect(x, y, Math.max(0, width * ratio), height);
-    ctx.restore();
+  ctx.fillStyle = "#7a1111";
+  ctx.fillRect(x, y, width, height);
+
+  ctx.fillStyle = "#5cff5c";
+  ctx.fillRect(x, y, Math.max(0, width * ratio), height);
+
+  if (this.isBoss && this.bossName) {
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "14px monospace";
+    ctx.textAlign = "center";
+    ctx.fillText(this.bossName, this.x + this.width / 2, y - 6);
   }
+
+  ctx.restore();
+}
 }
 
 Zombie.nextId = 1;
