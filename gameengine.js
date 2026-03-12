@@ -286,80 +286,90 @@ class GameEngine {
             p.y <= r.y + r.height
         );
     }
+    isTitleScreenActive() {
+        return (this.entities || []).some(
+            e => e && e.constructor && e.constructor.name === "TitleScreen"
+        );
+    }
 
 handleTopRightUiClick() {
   if (!this.click || !this.ctx) return;
+
+  // Hide these controls on the title screen
+  if (this.isTitleScreenActive()) return;
 
   if (performance.now() < this.ignoreClicksUntil) {
     this.click = null;
     return;
   }
 
-  const click = this.click; // DON'T clear it yet
+  const click = this.click;
 
   const rects = this.getTopRightControlRects();
 
   if (this.pointInRect(click, rects.pause)) {
-    this.click = null; // consume only if used
+    this.click = null;
     this.togglePause();
     return;
   }
 
   if (this.pointInRect(click, rects.restart)) {
-    this.click = null; // consume only if used
+    this.click = null;
     this.doRestart();
     return;
   }
 }
 
     drawTopRightControls() {
-        if (!this.ctx) return;
+    if (!this.ctx) return;
 
-        const rects = this.getTopRightControlRects();
-        const pauseLabel = this.paused ? "Resume" : "Pause";
+    // Don't show Pause / Restart / N / C on the title screen
+    if (this.isTitleScreenActive()) return;
 
-        this.ctx.save();
-        this.ctx.font = "14px monospace";
-        this.ctx.textAlign = "center";
-        this.ctx.textBaseline = "middle";
+    const rects = this.getTopRightControlRects();
+    const pauseLabel = this.paused ? "Resume" : "Pause";
 
-        const drawButton = (r, label) => {
-            this.ctx.fillStyle = "rgba(0,0,0,0.65)";
-            this.ctx.fillRect(r.x, r.y, r.width, r.height);
-            this.ctx.strokeStyle = "#ffffff";
-            this.ctx.lineWidth = 1;
-            this.ctx.strokeRect(r.x, r.y, r.width, r.height);
-            this.ctx.fillStyle = "#ffffff";
-            this.ctx.fillText(label, r.x + r.width / 2, r.y + r.height / 2);
-        };
+    this.ctx.save();
+    this.ctx.font = "14px monospace";
+    this.ctx.textAlign = "center";
+    this.ctx.textBaseline = "middle";
 
-        drawButton(rects.pause, pauseLabel);
-        drawButton(rects.restart, "Restart");
-        this.ctx.font = "12px monospace";
-        this.ctx.fillStyle = "rgba(255,255,255,0.85)";
-        this.ctx.textAlign = "center";
-        this.ctx.textBaseline = "top";
+    const drawButton = (r, label) => {
+        this.ctx.fillStyle = "rgba(0,0,0,0.65)";
+        this.ctx.fillRect(r.x, r.y, r.width, r.height);
+        this.ctx.strokeStyle = "#ffffff";
+        this.ctx.lineWidth = 1;
+        this.ctx.strokeRect(r.x, r.y, r.width, r.height);
+        this.ctx.fillStyle = "#ffffff";
+        this.ctx.fillText(label, r.x + r.width / 2, r.y + r.height / 2);
+    };
 
-        const centerX = rects.restart.x + rects.restart.width / 2;
-        const firstY = rects.restart.y + rects.restart.height + 6;
+    drawButton(rects.pause, pauseLabel);
+    drawButton(rects.restart, "Restart");
 
-        this.ctx.fillText("Press N: Notebook", centerX, firstY);
+    this.ctx.font = "12px monospace";
+    this.ctx.fillStyle = "rgba(255,255,255,0.85)";
+    this.ctx.textAlign = "center";
+    this.ctx.textBaseline = "top";
 
-        const hintOn = this.hintArrow && this.hintArrow.active;
-        const notebookHasUpdate = this.notebook && this.notebook.hasUnreadUpdate;
-        const flashOn = Math.floor(performance.now() / 300) % 2 === 0;
+    const centerX = rects.restart.x + rects.restart.width / 2;
+    const firstY = rects.restart.y + rects.restart.height + 6;
 
-        if (notebookHasUpdate) {
+    const hintOn = this.hintArrow && this.hintArrow.active;
+    const notebookHasUpdate = this.notebook && this.notebook.hasUnreadUpdate;
+    const flashOn = Math.floor(performance.now() / 300) % 2 === 0;
+
+    if (notebookHasUpdate) {
         this.ctx.fillStyle = flashOn ? "#ffd54f" : "#ffffff";
-        } else {
+    } else {
         this.ctx.fillStyle = "rgba(255,255,255,0.85)";
-        }
+    }
 
-        this.ctx.fillText("Press N: Notebook", centerX, firstY);
-        this.ctx.fillText("Press C: Compass", centerX, firstY + 16);
-        this.ctx.fillText(`${hintOn ? "ON" : "OFF"}`, centerX, firstY + 32);
+    this.ctx.fillText("Press N: Notebook", centerX, firstY);
+    this.ctx.fillText("Press C: Compass", centerX, firstY + 16);
+    this.ctx.fillText(`${hintOn ? "ON" : "OFF"}`, centerX, firstY + 32);
 
-        this.ctx.restore();
+    this.ctx.restore();
     }
 
     drawHealthBar() {
