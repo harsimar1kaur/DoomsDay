@@ -1362,6 +1362,38 @@
                  "width":16,
                  "x":32.3333333333333,
                  "y":895.333333333333
+                }, 
+                {
+                 "height":16,
+                 "id":61,
+                 "name":"bethSpawn",
+                 "properties":[
+                        {
+                         "name":"entity",
+                         "type":"string",
+                         "value":"player"
+                        }, 
+                        {
+                         "name":"facing",
+                         "type":"string",
+                         "value":"down"
+                        }, 
+                        {
+                         "name":"name ",
+                         "type":"string",
+                         "value":"bethSpawn"
+                        }, 
+                        {
+                         "name":"spawn_od",
+                         "type":"string",
+                         "value":"start"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":145,
+                 "y":197.25
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1877,7 +1909,7 @@
          "y":0
         }],
  "nextlayerid":32,
- "nextobjectid":60,
+ "nextobjectid":62,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",

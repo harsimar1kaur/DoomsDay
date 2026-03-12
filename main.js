@@ -7,7 +7,7 @@ gameEngine.debugWeapon = DEBUG_WEAPON;
 const ASSET_MANAGER = new AssetManager();
 
 // Starting map + player config.
-const MAP_PATH = "./maps/bethroom.tmj";
+const MAP_PATH = "./maps/sewer.tmj";
 const BAT_SPRITE_PATH = "./PostApocalypse_AssetPack_v1.1.2/Objects/Pickable/Bat.png";
 const KNIFE_SPRITE_PATH = "./PostApocalypse_AssetPack_v1.1.2/Objects/Pickable/Knife.png";
 const KEY_SPRITE_PATH = "./Room/sewerkey.png";
@@ -68,6 +68,7 @@ function getPickupSpritePath(itemId) {
   if (itemId === "bat") return BAT_SPRITE_PATH;
   if (itemId === "knife") return KNIFE_SPRITE_PATH;
   if (itemId === "beth_house_key") return KEY_SPRITE_PATH;
+  if (itemId === "escape_key") return "./KeyFly/KeyFly1.png";
   return "";
 }
 
@@ -176,9 +177,15 @@ frameHeight: isAnimatedKey ? 16 : height
 
 function onStoryItemCollected(itemId) {
   const normalized = normalizeItemId(itemId);
+
   if (normalized === "beth_house_key") {
     gameEngine.hasSewerKey = true;
     gameEngine.showDialogue("Found Beth's house key.", 2200);
+  }
+
+  if (normalized === "escape_key") {
+    gameEngine.hasEscapeKey = true;
+    gameEngine.showDialogue("Found the escape key.", 2200);
   }
 }
 
@@ -337,6 +344,11 @@ async function loadGame() {
   ASSET_MANAGER.queueDownload("./sprites/character/punch/Character_up_punch-Sheet4.png");
   ASSET_MANAGER.queueDownload("./sprites/character/punch/Character_side-left_punch-Sheet4.png");
   ASSET_MANAGER.queueDownload("./sprites/character/punch/Character_side_punch-Sheet4.png");
+
+  ASSET_MANAGER.queueDownload("./KeyFly/KeyFly1.png");
+ASSET_MANAGER.queueDownload("./KeyFly/KeyFly2.png");
+ASSET_MANAGER.queueDownload("./KeyFly/KeyFly3.png");
+ASSET_MANAGER.queueDownload("./KeyFly/KeyFly4.png");
 
   ASSET_MANAGER.queueDownload("./Room/ZombieWoman/Zombie - Idle.png");
   ASSET_MANAGER.queueDownload("./Room/ZombieWoman/Zombie - Walk.png");

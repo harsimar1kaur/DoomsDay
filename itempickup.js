@@ -21,6 +21,10 @@ class ItemPickup {
     this.frameWidth = options.frameWidth || this.width;
     this.frameHeight = options.frameHeight || this.height;
     this.animTime = 0;
+
+    this.animationFrames = options.animationFrames || null;
+    this.frameDuration = options.frameDuration || 0.12;
+    this.animTime = 0;
   }
 
   update() {

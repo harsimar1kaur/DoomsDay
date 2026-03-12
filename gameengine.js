@@ -211,7 +211,10 @@ class GameEngine {
         }
 
         const zombiesLeft = this.entities.filter(
-            e => e && e.constructor && e.constructor.name === "Zombie"
+        e =>
+            e &&
+            e.constructor &&
+            (e.constructor.name === "Zombie" || e.constructor.name === "BethBoss")
         ).length;
 
         if (this.zombiesEnabled && this.levelHadZombies && zombiesLeft === 0) {

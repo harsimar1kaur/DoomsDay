@@ -50,6 +50,7 @@ class Inventory {
     if (player.inventory.bat) items.push("bat");
     if (player.inventory.knife) items.push("knife");
     if (player.inventory.beth_house_key) items.push("beth_house_key");
+    if (player.inventory.escape_key) items.push("escape_key");
 
     return items;
   }
@@ -63,6 +64,9 @@ class Inventory {
     }
     if (itemId === "beth_house_key") {
       return "./Room/sewerkey.png";
+    }
+    if (itemId === "escape_key") {
+      return "./KeyFly/KeyFly1.png";
     }
     return null;
   }
