@@ -5,17 +5,19 @@ class TitleScreen {
     this.onStart = onStart; // callback
     this.showInstructions = false;
 
-    // Start button
-    this.x = 200;
-    this.y = 320;
-    this.w = 240;
-    this.h = 80;
+    this.backgroundPath = "./sprites/ui/title-bg.png";
 
-    // Instructions button
-    this.instructionsX = 200;
-    this.instructionsY = 420;
-    this.instructionsW = 240;
-    this.instructionsH = 80;
+    // Button sizes
+    this.w = 200;
+    this.h = 60;
+    this.instructionsW = 200;
+    this.instructionsH = 60;
+
+    // Initial values (real positions get set in draw)
+    this.x = 40;
+    this.y = 0;
+    this.instructionsX = 40;
+    this.instructionsY = 0;
 
     this.removeFromWorld = false;
   }
@@ -62,11 +64,56 @@ class TitleScreen {
   draw(ctx) {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-    // Background title
-    ctx.fillStyle = "#134b09";
-    ctx.font = "96px Creepster";
-    ctx.textAlign = "center";
-    ctx.fillText("DOOMSDAY", ctx.canvas.width / 2, 170);
+    // Bottom-left positioning
+    this.x = 40;
+    this.y = ctx.canvas.height - 180;
+
+    this.instructionsX = 40;
+    this.instructionsY = ctx.canvas.height - 90;
+
+    const mouse = this.game.mouse;
+    const hoverStart = mouse &&
+      mouse.x >= this.x &&
+      mouse.x <= this.x + this.w &&
+      mouse.y >= this.y &&
+      mouse.y <= this.y + this.h;
+
+    const hoverInstructions = mouse &&
+      mouse.x >= this.instructionsX &&
+      mouse.x <= this.instructionsX + this.instructionsW &&
+      mouse.y >= this.instructionsY &&
+      mouse.y <= this.instructionsY + this.instructionsH;
+
+    const bg = ASSET_MANAGER.getAsset(this.backgroundPath);
+    const bgReady = !!(bg && bg.complete && bg.naturalWidth > 0);
+
+    // Background image
+    if (bgReady) {
+      ctx.save();
+      ctx.imageSmoothingEnabled = true;
+
+      const canvasW = ctx.canvas.width;
+      const canvasH = ctx.canvas.height;
+      const imgW = bg.width;
+      const imgH = bg.height;
+
+      const scale = Math.max(canvasW / imgW, canvasH / imgH);
+      const drawW = imgW * scale;
+      const drawH = imgH * scale;
+      const drawX = (canvasW - drawW) / 2;
+      const drawY = (canvasH - drawH) / 2;
+
+      ctx.drawImage(bg, drawX, drawY, drawW, drawH);
+      ctx.restore();
+
+      // dark overlay so buttons/text are readable
+      ctx.fillStyle = "rgba(0, 0, 0, 0.28)";
+      ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    } else {
+      // fallback if image fails to load
+      ctx.fillStyle = "#101010";
+      ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    }
 
     // Instructions screen
     if (this.showInstructions) {
@@ -79,6 +126,7 @@ class TitleScreen {
 
       ctx.fillStyle = "#b9ff9e";
       ctx.font = "42px Creepster";
+      ctx.textAlign = "center";
       ctx.fillText("Instructions", ctx.canvas.width / 2, 140);
 
       ctx.fillStyle = "white";
@@ -98,7 +146,7 @@ class TitleScreen {
     }
 
     // START button
-    ctx.fillStyle = "#0b1b0a";
+    ctx.fillStyle = hoverStart ? "rgba(30, 70, 25, 0.95)" : "rgba(11, 27, 10, 0.88)";
     ctx.fillRect(this.x, this.y, this.w, this.h);
 
     ctx.strokeStyle = "#4caf50";
@@ -106,11 +154,12 @@ class TitleScreen {
     ctx.strokeRect(this.x, this.y, this.w, this.h);
 
     ctx.fillStyle = "#b9ff9e";
-    ctx.font = "48px Creepster";
-    ctx.fillText("START", this.x + this.w / 2, this.y + 55);
+    ctx.font = "36px Creepster";
+    ctx.textAlign = "center";
+    ctx.fillText("START", this.x + this.w / 2, this.y + 40);
 
     // INSTRUCTIONS button
-    ctx.fillStyle = "#0b1b0a";
+    ctx.fillStyle = hoverInstructions ? "rgba(30, 70, 25, 0.95)" : "rgba(11, 27, 10, 0.88)";
     ctx.fillRect(
       this.instructionsX,
       this.instructionsY,
@@ -128,11 +177,11 @@ class TitleScreen {
     );
 
     ctx.fillStyle = "#b9ff9e";
-    ctx.font = "34px Creepster";
+    ctx.font = "26px Creepster";
     ctx.fillText(
       "INSTRUCTIONS",
       this.instructionsX + this.instructionsW / 2,
-      this.instructionsY + 52
+      this.instructionsY + 38
     );
   }
 }

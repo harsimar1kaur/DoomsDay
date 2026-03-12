@@ -5,6 +5,7 @@
   <title>DoomsDay</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 
   <style>
     html, body {
@@ -39,9 +40,16 @@
 
 <body>
   <h1>DoomsDay</h1>
+  
+<div id="game-ui">
+  <button id="loadBtn" class="gameBtn">Load</button>
+  <button id="saveBtn" class="gameBtn">Save</button>
+</div>
 
   <!-- Canvas is pushed DOWN independently -->
-  <canvas id="gameWorld" width="640" height="640" tabindex="0"></canvas>
+  <div id="gameContainer">
+    <canvas id="gameWorld" width="640" height="640" tabindex="0"></canvas>
+  </div>
 
  <script src="util.js"></script>
 <script src="timer.js"></script>
@@ -57,6 +65,7 @@
 <script src="tilemap.js"></script>    <!-- after spawners -->
 <script src="player.js"></script>
 <script src="itempickup.js"></script>
+<script src="pickups.js"></script>
 
 <script src="titlescreen.js"></script>
 <script src="audio.js"></script>

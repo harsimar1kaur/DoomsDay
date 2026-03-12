@@ -57,7 +57,7 @@
 
 /* Top-right buttons */
 #game-ui {
-  position: fixed;
+  position: absolute;
   top: 12px;
   right: 12px;
   display: flex;
@@ -71,4 +71,31 @@
   border-radius: 10px;
   cursor: pointer;
   font-weight: 600;
+  
+}
+.gameBtn {
+  position: absolute;
+  top: 50px;
+  right: calc((100vw - 640px) / 2 - 15px);
+
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 700;
+
+  border-radius: 8px;
+  border: 2px solid #4caf50;
+
+  background: #1a1a1a;
+  color: #4caf50;
+
+  cursor: pointer;
+  z-index: 200;
+}
+
+#saveBtn {
+  right: calc((100vw - 640px) / 2 + 70px);
+}
+#gameContainer {
+  position: relative;
+  display: inline-block;
 }

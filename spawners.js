@@ -68,15 +68,13 @@ function spawnZombiesFromMap(game, mapData, mapScale) {
         // BOSS SPAWN (Beth)
         // -------------------------
         if (marker.includes("boss")) {
+          const boss = new BethBoss(game, player, x, y);
+          game.addEntity(boss);
+          spawned.push(boss);
 
-  const boss = new BethBoss(game, player, x, y);
-
-  game.addEntity(boss);
-  spawned.push(boss);
-
-  console.log("[SPAWNED] Beth Boss at", x, y);
-  continue;
-}
+          console.log("[SPAWNED] Beth Boss at", x, y);
+          continue;
+        }
 
         // -------------------------
         // NORMAL ZOMBIES

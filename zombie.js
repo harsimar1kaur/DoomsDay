@@ -123,6 +123,24 @@ tryLazyLoadSprite(spritePath) {
     this.state = "death";
     this.animElapsed = 0;
     this.attackTimer = 9999; // stop attacking
+
+    // First zombie defeated in Beth room is treated as the boss defeat milestone.
+    const mapPath = String(this.game && this.game.currentMapPath || "").toLowerCase();
+    if (this.game && mapPath.includes("bethroom") && !this.game.bossDefeated) {
+      this.game.bossDefeated = true;
+      const aliveNow = (this.game.entities || []).filter(
+        (e) =>
+          e &&
+          e.constructor &&
+          e.constructor.name === "Zombie" &&
+          !e.removeFromWorld &&
+          e.state !== "death"
+      ).length;
+      this.game.zombieObjectiveTotal = Math.max(this.game.zombieObjectiveTotal || 0, aliveNow);
+      if (typeof this.game.showDialogue === "function") {
+        this.game.showDialogue("Boss down. Clear the remaining zombies.", 2600);
+      }
+    }
   }
     return true;
   }
@@ -270,7 +288,7 @@ drawHealthBar(ctx) {
   const width = this.isBoss ? 70 : 30;
   const height = this.isBoss ? 8 : 4;
   const x = this.x + (this.width - width) / 2;
-  const y = this.y - (this.isBoss ? 16 : 8);
+  const y = this.y - (this.isBoss ? 10 : 8);
   const ratio = this.maxHealth > 0 ? this.health / this.maxHealth : 0;
 
   ctx.save();
