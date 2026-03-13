@@ -136,6 +136,14 @@ dropEscapeKey() {
   this.animations.death.reset();
   this.dropEscapeKey();
 
+  // Open Beth's letter immediately on boss death.
+  if (this.game) {
+    this.game.bethTableChecked = true;
+    if (this.game.letter && typeof this.game.letter.open === "function") {
+      this.game.letter.open();
+    }
+  }
+
   if (this.game) {
     this.game.bossDefeated = true;
     if (this.spawnId) {

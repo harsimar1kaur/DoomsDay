@@ -16,7 +16,7 @@ const TITLE_BG_PATH = "./sprites/ui/title-bg.png";
 const SAVE_KEY = "doomsday_save";
 const MAP_SCALE = 4;
 const START_SPAWN = "PlayerSpawn";
-const PLAYER_SPEED = 500; // pixels per second 140
+const PLAYER_SPEED = 1000; // pixels per second
 const ZOMBIE_COUNT = 1;
 
 let currentPlayer = null;
@@ -81,6 +81,31 @@ function resolvePickupType(obj) {
   if (raw.includes("beth_house_key") || raw.includes("house_key") || raw === "key" || raw.includes("key")) return "beth_house_key";
 
   return null;
+}
+
+function getNoteZones(mapData, mapScale) {
+  const zones = [];
+  const objectLayers = getMapObjectLayers(mapData);
+
+  for (const layer of objectLayers) {
+    const layerName = String(layer.name || "").toLowerCase();
+    if (layerName !== "note") continue;
+
+    for (const obj of layer.objects || []) {
+      const width = (obj.width || 0) * mapScale;
+      const height = (obj.height || 0) * mapScale;
+
+      zones.push({
+        name: String(obj.name || "").toLowerCase(),
+        x: (obj.x || 0) * mapScale,
+        y: (obj.y || 0) * mapScale,
+        width,
+        height
+      });
+    }
+  }
+
+  return zones;
 }
 
 function getPickupSpritePath(itemId) {
@@ -299,6 +324,9 @@ async function setupWorld(mapPath, spawnName) {
   gameEngine.enemyObjectiveDefeated = 0;
   gameEngine.visitedBethUpstairs = false;
   gameEngine.bethEscapeComplete = false;
+  gameEngine.bethTableChecked = false;
+  gameEngine.bethLetterRead = false;
+  gameEngine.letter = null;
   gameEngine.seenDialogTriggers = new Set();
   gameEngine.seenDialogueMessages = new Set();
   gameEngine.dialogueUsedGroupsGlobal = new Set();
@@ -332,21 +360,25 @@ async function setupWorld(mapPath, spawnName) {
     gameEngine.onStoryItemCollected = onStoryItemCollected;
 
     mapManager.setMap(mapData, mapPath, spawnName);
-
+    gameEngine.noteZones = getNoteZones(mapData, MAP_SCALE);
+    
     const notebook = new Notebook(gameEngine);
     const teleportPrompt = new TeleportPrompt(gameEngine);
     const hintArrow = new HintArrow(gameEngine);
     const inventory = new Inventory(gameEngine);
+    const letter = new Letter(gameEngine);
 
     gameEngine.notebook = notebook;
     gameEngine.teleportPrompt = teleportPrompt;
     gameEngine.hintArrow = hintArrow;
     gameEngine.inventory = inventory;
+    gameEngine.letter = letter;
 
     gameEngine.entities.unshift(notebook);
     gameEngine.entities.unshift(teleportPrompt);
     gameEngine.entities.unshift(hintArrow);
     gameEngine.entities.unshift(inventory);
+    gameEngine.entities.unshift(letter);
 
     gameEngine.cameraTarget = player;
     gameEngine.addEntity(player);
@@ -363,11 +395,14 @@ async function setupWorld(mapPath, spawnName) {
   } else {
     const player = new Player(gameEngine, 400, 300, PLAYER_SPEED);
     const teleportPrompt = new TeleportPrompt(gameEngine);
+    const letter = new Letter(gameEngine);
 
     restoreCollectedItemsToPlayer(player);
 
     gameEngine.teleportPrompt = teleportPrompt;
+    gameEngine.letter = letter;
     gameEngine.entities.unshift(teleportPrompt);
+    gameEngine.entities.unshift(letter);
 
     gameEngine.cameraTarget = player;
     gameEngine.addEntity(player);
@@ -437,6 +472,40 @@ function saveGame() {
 
     localStorage.setItem(SAVE_KEY, JSON.stringify(saveData));
     console.log("Game saved", saveData);
+}
+
+
+function rectsOverlap(a, b) {
+  return (
+    a.x < b.x + b.width &&
+    a.x + a.width > b.x &&
+    a.y < b.y + b.height &&
+    a.y + a.height > b.y
+  );
+}
+
+function checkBethNoteTrigger() {
+  const player = gameEngine.cameraTarget;
+  if (!player) return;
+  if (!gameEngine.letter) return;
+  if (!gameEngine.bossDefeated) return;   // only after Beth is dead
+  if (gameEngine.bethTableChecked) return;
+  if (!Array.isArray(gameEngine.noteZones)) return;
+
+  const playerBox = {
+    x: player.x,
+    y: player.y,
+    width: player.width,
+    height: player.height
+  };
+
+  for (const zone of gameEngine.noteZones) {
+    if (rectsOverlap(playerBox, zone)) {
+      gameEngine.bethTableChecked = true;
+      gameEngine.letter.showPrompt();
+      break;
+    }
+  }
 }
 
 function loadSavedGame() {
@@ -588,6 +657,9 @@ async function loadGame() {
       gameEngine.enemyObjectiveDefeated = 0;
       gameEngine.visitedBethUpstairs = false;
       gameEngine.bethEscapeComplete = false;
+      gameEngine.bethTableChecked = false;
+      gameEngine.bethLetterRead = false;
+      gameEngine.letter = null;
       gameEngine.seenDialogTriggers = new Set();
       gameEngine.seenDialogueMessages = new Set();
       gameEngine.dialogueUsedGroupsGlobal = new Set();
@@ -626,6 +698,9 @@ async function loadGame() {
       gameEngine.enemyObjectiveDefeated = 0;
       gameEngine.visitedBethUpstairs = false;
       gameEngine.bethEscapeComplete = false;
+      gameEngine.bethTableChecked = false;
+      gameEngine.bethLetterRead = false;
+      gameEngine.letter = null;
       gameEngine.seenDialogTriggers = new Set();
       gameEngine.seenDialogueMessages = new Set();
       gameEngine.dialogueUsedGroupsGlobal = new Set();

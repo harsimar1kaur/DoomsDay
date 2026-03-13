@@ -120,7 +120,7 @@ update() {
   const mapManager = this.getMapManager();
   this.active = true;
   const progress = this.getNonSewerEnemyProgress();
-  const mapCleared = progress.total > 0 && progress.alive <= 0;
+  const mapCleared = progress.alive <= 0 && (progress.total > 0 || !!this.game.bossDefeated);
   const finalExitPoint = this.getFinalExitPoint(mapManager);
 
   // After clearing the map objective, keep compass guiding the player to the final gate.

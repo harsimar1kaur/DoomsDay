@@ -151,9 +151,12 @@ function isPortalObject(obj) {
 // Detects dialog trigger objects.
 function isDialogObject(obj) {
   const typeProp = getObjectProperty(obj, "type");
+  const objName = String((obj && obj.name) || "").toLowerCase();
+  const objType = String((obj && obj.type) || "").toLowerCase();
   if (typeProp === "dialog") return true;
   if (obj.type === "dialog") return true;
   if (obj.class === "dialog") return true;
+  if (objName === "note" || objType === "note") return true;
   if (getObjectProperty(obj, "text")) return true;
   return false;
 }
@@ -688,11 +691,13 @@ class MapManager {
     const requiredKey = String(getObjectProperty(exitObj, "requiresKey") || "").trim();
     const progress = this.getNonSewerEnemyProgress();
     const isAreaCleared = progress.total > 0 && progress.alive <= 0;
+    const requiresLetterRead = requiresBethDefeated;
 
     const hasBethDefeated = !requiresBethDefeated || !!this.game.bossDefeated;
+    const hasReadBethLetter = !requiresLetterRead || !!this.game.bethLetterRead;
     const hasRequiredKey = !requiredKey || !!(this.player && this.player.hasItem && this.player.hasItem(requiredKey));
 
-    return hasBethDefeated && hasRequiredKey && isAreaCleared;
+    return hasBethDefeated && hasReadBethLetter && hasRequiredKey && isAreaCleared;
   }
 
   setLayerVisibilityByName(layerName, visible) {
@@ -957,6 +962,12 @@ update() {
       return;
     }
 
+    if (requiresBethDefeated && !this.game.bethLetterRead) {
+      this.game.showDialogue("Read Beth's note on the table before leaving.", 2200);
+      this.portalCooldown = 0.45;
+      return;
+    }
+
     if (!(progress.total > 0 && progress.alive <= 0)) {
       this.game.showDialogue("I need to clear the area first.", 1800);
       this.portalCooldown = 0.45;
@@ -1048,6 +1059,30 @@ for (const portal of this.portals) {
 
   // --- dialog object logic ---
   for (const dialog of this.dialogs) {
+    const dialogName = String(dialog.name || "").toLowerCase();
+    const dialogType = String(dialog.type || "").toLowerCase();
+    const isBethNoteTrigger = dialogName.includes("note") || dialogType.includes("note");
+
+    if (isBethNoteTrigger) {
+      const noteRect = this.getTriggerRect(dialog);
+      const noteOverlap = rectsOverlap(playerBounds, noteRect);
+
+      if (!noteOverlap) continue;
+
+      if (!this.game.bossDefeated) {
+        this.showDialogueOnce(`${this.mapPath}:beth_note_locked`, "I should deal with Beth first.", 1800);
+        continue;
+      }
+
+      this.game.bethTableChecked = true;
+
+      if (this.game.letter && typeof this.game.letter.showPrompt === "function") {
+        this.game.letter.showPrompt();
+      }
+
+      continue;
+    }
+
     const dialogKey = this.getDialogTriggerKey(dialog);
     if (this.usedTriggers.has(dialog.id)) continue;
     if (this.game.seenDialogTriggers && this.game.seenDialogTriggers.has(dialogKey)) continue;
@@ -1066,7 +1101,6 @@ for (const portal of this.portals) {
       this.game.seenDialogTriggers.add(dialogKey);
 
       // mark window task complete
-      const dialogName = String(dialog.name || "").toLowerCase();
       if (dialogName.includes("chair")) {
         this.game.checkedWindow = true;
       }

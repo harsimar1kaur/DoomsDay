@@ -45,7 +45,7 @@ class Notebook {
     }
 
     if (inBethPhase) {
-      return `objective:beth_phase:${inBethUpstairs ? 1 : 0}:${dead}/${total}:escaped:${this.game.bethEscapeComplete ? 1 : 0}`;
+      return `objective:beth_phase:${inBethUpstairs ? 1 : 0}:${dead}/${total}:boss:${this.game.bossDefeated ? 1 : 0}:escaped:${this.game.bethEscapeComplete ? 1 : 0}`;
     }
 
     if (this.game.bossDefeated) {
@@ -189,6 +189,20 @@ class Notebook {
         };
       }
 
+      if (this.game.bossDefeated) {
+        return {
+          title: "Notebook",
+          lines: [
+            "☑ Defeat Beth",
+            `☐ Kill all remaining zombies (Alive: ${alive})`,
+            "☐ Escape through the gate"
+          ],
+          footer: alive > 0
+            ? "Eliminate every remaining zombie, then escape."
+            : "All zombies cleared. Follow the compass to the exit gate."
+        };
+      }
+
       return {
         title: "Notebook",
         lines: [
@@ -326,10 +340,15 @@ class Notebook {
         if (index === 0) completed = sewer.hasKey;
         if (index === 1) completed = sewer.zombiesCleared;
       } else if (!completed && inBethPhase) {
-        if (index === 0) completed = upstairsDone;
-        if (index === 1) completed = bethAlive <= 0;
-        if (index === 2) completed = bethAlive <= 0;
-        if (index === 3) completed = !!this.game.bethEscapeComplete;
+        if (this.game.bossDefeated) {
+          if (index === 0) completed = true;
+          if (index === 1) completed = bethAlive <= 0;
+          if (index === 2) completed = !!this.game.bethEscapeComplete;
+        } else {
+          if (index === 0) completed = upstairsDone;
+          if (index === 1) completed = bethAlive <= 0;
+          if (index === 2) completed = !!this.game.bethEscapeComplete;
+        }
       }
 
       const text = completed ? line.replace("☐", "☑") : line;
