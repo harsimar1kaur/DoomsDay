@@ -35,6 +35,13 @@ toggle() {
     if (path.includes("bedroom") || path === "") {
       return `objective:bedroom:${this.windowChecked() ? 1 : 0}:${this.playerHasWeapon() ? 1 : 0}`;
     }
+
+    if (path.includes("sewer")) {
+    const alive = this.getAliveZombies(2);
+    const hasKey = this.game.hasSewerKey ? 1 : 0;
+    return `objective:sewer:${hasKey}:${alive}`;
+    }
+
     if (this.game.bossDefeated) {
       const alive = this.getAliveZombies();
       const total = this.game.zombieObjectiveTotal || alive;
@@ -45,18 +52,18 @@ toggle() {
     return "objective:check_on_beth";
 }
 
-  // Count living zombies (ignore dead/corpse ones)
-  getAliveZombies() {
-    const ents = this.game.entities || [];
-    return ents.filter(e =>
-      e &&
-      e.constructor &&
-      e.constructor.name === "Zombie" &&
-      !e.removeFromWorld &&
-      e.state !== "death"
-    ).length;
-  }
+  getAliveZombies(ignoreCount = 0) {
+  const ents = this.game.entities || [];
+  const alive = ents.filter(e =>
+    e &&
+    e.constructor &&
+    e.constructor.name === "Zombie" &&
+    !e.removeFromWorld &&
+    e.state !== "death"
+  ).length;
 
+  return Math.max(0, alive - ignoreCount);
+}
   playerHasWeapon() {
   const player = this.game.cameraTarget;
   if (!player) return false;
@@ -84,50 +91,68 @@ toggle() {
   return Math.sqrt(dx * dx + dy * dy) < 70;
 }
 
-  getObjectives() {
-    const path = String(this.game.currentMapPath || "").toLowerCase();
-    if (path.includes("bedroom") || path === "") {
-      return {
-        title: "Notebook",
-        lines: [
-          "☐ Check the window!!",
-          "☐ Grab a weapon from your room.",
-          "☐ Leave the bedroom."
-        ],
-        footer: "Finish tasks before leaving."
-      };
-    }
+getObjectives() {
+  const path = String(this.game.currentMapPath || "").toLowerCase();
 
-    if (this.game.bossDefeated) {
-      const alive = this.getAliveZombies();
-      const total = Math.max(this.game.zombieObjectiveTotal || 0, alive);
-      this.game.zombieObjectiveTotal = total;
+  if (path.includes("bedroom") || path === "") {
+    return {
+      title: "Notebook",
+      lines: [
+        "☐ Check the window!!",
+        "☐ Grab a weapon from your room.",
+        "☐ Leave the bedroom."
+      ],
+      footer: "Finish tasks before leaving."
+    };
+  }
 
-      if (alive <= 0) {
-        return {
-          title: "Notebook",
-          lines: ["☑ Kill all remaining zombies in the area (0/0)", "☐ Escape the area"],
-          footer: "Area cleared. Find the way out."
-        };
-      }
-
-      return {
-        title: "Notebook",
-        lines: [`☐ Kill all remaining zombies in the area (${alive}/${total})`],
-        footer: "Clear them all to escape."
-      };
-    }
-
-    let objective = "Check on Beth";
-    if (this.game.hasSewerKey) objective = "Return to Beth's house";
-    else if (this.game.hasTriedBethDoor) objective = "Check the sewer for the key";
+  if (path.includes("sewer")) {
+    const alive = this.getAliveZombies(2);
+    const killDone = alive <= 0;
+    const keyDone = !!this.game.hasSewerKey;
 
     return {
       title: "Notebook",
-      lines: [`☐ ${objective}`],
-      footer: "Press N to close."
+      lines: [
+        `${keyDone ? "☑" : "☐"} Find Beth's key`,
+        `${killDone ? "☑" : "☐"} Kill all sewer enemies (${alive}/3)`
+      ],
+      footer: killDone && keyDone
+        ? "All sewer objectives complete."
+        : "Finish both objectives before leaving."
     };
   }
+
+  if (this.game.bossDefeated) {
+    const alive = this.getAliveZombies();
+    const total = Math.max(this.game.zombieObjectiveTotal || 0, alive);
+    this.game.zombieObjectiveTotal = total;
+
+    if (alive <= 0) {
+      return {
+        title: "Notebook",
+        lines: ["☑ Kill all remaining zombies in the area (0/0)", "☐ Escape the area"],
+        footer: "Area cleared. Find the way out."
+      };
+    }
+
+    return {
+      title: "Notebook",
+      lines: [`☐ Kill all remaining zombies in the area (${alive}/${total})`],
+      footer: "Clear them all to escape."
+    };
+  }
+
+  let objective = "Check on Beth";
+  if (this.game.hasSewerKey) objective = "Return to Beth's house";
+  else if (this.game.hasTriedBethDoor) objective = "Check the sewer for the key";
+
+  return {
+    title: "Notebook",
+    lines: [`☐ ${objective}`],
+    footer: "Press N to close."
+  };
+}
 
   update() {
 
