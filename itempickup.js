@@ -88,6 +88,11 @@ draw(ctx) {
   const spriteReady = !!(sprite && sprite.complete && sprite.naturalWidth > 0);
 
   if (spriteReady) {
+    // Non-animated pickups should render the full image directly.
+    // This avoids accidental source-cropping when width/height are larger than the sprite.
+    if (!this.animationFrames && this.frameCount <= 1) {
+      ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
+    } else {
     const frameIndex =
       this.frameCount > 1
         ? Math.floor(this.animTime / this.frameDuration) % this.frameCount
@@ -118,6 +123,7 @@ draw(ctx) {
       this.width,
       this.height
     );
+    }
   } else {
     if (this.spritePath && !this.warnedMissingSprite) {
       console.warn("Pickup sprite missing, using fallback:", this.spritePath);

@@ -91,8 +91,7 @@ toggle() {
         title: "Notebook",
         lines: [
           "☐ Check the window!!",
-          "☐ Grab a weapon from your room.",
-          "☐ Leave the bedroom."
+          "☐ Grab a weapon from your room."
         ],
         footer: "Finish tasks before leaving."
       };
@@ -199,14 +198,12 @@ toggle() {
     let ty = y + 105;
     let index = 0;
     const path = String(this.game.currentMapPath || "").toLowerCase();
-    const bedroomReady = this.windowChecked() && this.playerHasWeapon();
 
     for (const line of lines) {
       let completed = line.trim().startsWith("☑");
       if (!completed && (path.includes("bedroom") || path === "")) {
         if (index === 0) completed = this.windowChecked();
         if (index === 1) completed = this.playerHasWeapon();
-        if (index === 2) completed = bedroomReady;
       }
 
       const text = completed ? line.replace("☐", "☑") : line;

@@ -147,8 +147,8 @@ function spawnPickupsForMap(player, mapData, mapPath) {
     const itemId = normalizeItemId(mappedType);
     if (itemId === "bat") {
       // Make bat on table clearly visible.
-      width = Math.max(width, 72);
-      height = Math.max(height, 72);
+      width = Math.max(width, 33);
+      height = Math.max(height, 33);
     }
     const x = isPoint ? rawX - width / 2 : rawX;
     const y = isPoint ? rawY - height / 2 : rawY;
@@ -175,7 +175,13 @@ frameHeight: isAnimatedKey ? 16 : height
 
   // Bedroom safety fallback: always ensure a bat pickup exists unless already collected.
   // This keeps bat available even if the map currently only has non-bat pickups (like Knife).
-  const hasBatPickupObject = pickupObjects.some((p) => normalizeItemId(p.itemType) === "bat");
+  const hasBatPickupObject = pickupObjects.some((p) => {
+    const mappedType =
+      mapPathLower.includes("bedroom") && p.itemType === "knife"
+        ? "bat"
+        : p.itemType;
+    return normalizeItemId(mappedType) === "bat";
+  });
   if (mapPathLower.includes("bedroom") && !hasBatPickupObject) {
     const fallbackKey = `${mapPathLower}:bat`;
 
@@ -183,8 +189,8 @@ frameHeight: isAnimatedKey ? 16 : height
       gameEngine.addEntity(new ItemPickup(gameEngine, player, {
         x: 64,
         y: 320,
-        width: 30,
-        height: 30,
+        width: 33,
+        height: 33,
         itemId: "bat",
         spritePath: BAT_SPRITE_PATH,
         collectedKey: fallbackKey
