@@ -299,6 +299,9 @@ async function setupWorld(mapPath, spawnName) {
   gameEngine.enemyObjectiveDefeated = 0;
   gameEngine.visitedBethUpstairs = false;
   gameEngine.bethEscapeComplete = false;
+  gameEngine.seenDialogTriggers = new Set();
+  gameEngine.seenDialogueMessages = new Set();
+  gameEngine.dialogueUsedGroupsGlobal = new Set();
 
   if (!gameEngine.collectedItems) {
     gameEngine.collectedItems = new Set();
@@ -585,6 +588,9 @@ async function loadGame() {
       gameEngine.enemyObjectiveDefeated = 0;
       gameEngine.visitedBethUpstairs = false;
       gameEngine.bethEscapeComplete = false;
+      gameEngine.seenDialogTriggers = new Set();
+      gameEngine.seenDialogueMessages = new Set();
+      gameEngine.dialogueUsedGroupsGlobal = new Set();
       gameEngine.collectedItems = new Set();
       gameEngine.pendingTeleport = null;
       gameEngine.gameOver = false;
@@ -620,6 +626,9 @@ async function loadGame() {
       gameEngine.enemyObjectiveDefeated = 0;
       gameEngine.visitedBethUpstairs = false;
       gameEngine.bethEscapeComplete = false;
+      gameEngine.seenDialogTriggers = new Set();
+      gameEngine.seenDialogueMessages = new Set();
+      gameEngine.dialogueUsedGroupsGlobal = new Set();
       gameEngine.collectedItems = new Set();
 
       // optional: stop music on main screen

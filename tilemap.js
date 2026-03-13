@@ -636,6 +636,9 @@ class MapManager {
     this.portalCooldown = 0;
     this.activePortalId = null;
     this.isTransitioning = false;
+    if (!this.game.seenDialogTriggers) this.game.seenDialogTriggers = new Set();
+    if (!this.game.seenDialogueMessages) this.game.seenDialogueMessages = new Set();
+    if (!this.game.dialogueUsedGroupsGlobal) this.game.dialogueUsedGroupsGlobal = new Set();
   }
 
   isBethHouseDoorPortal(portal) {
@@ -707,6 +710,24 @@ class MapManager {
     const unlocked = this.isFinalExitUnlocked(this.finalExits[0]);
     this.setLayerVisibilityByName("lockeddoor", !unlocked);
     this.setLayerVisibilityByName("unlockeddoor", unlocked);
+  }
+
+  getDialogTriggerKey(dialog) {
+    const mapKey = String(this.mapPath || "").toLowerCase();
+    const idPart =
+      dialog && Number.isFinite(dialog.id)
+        ? String(dialog.id)
+        : `${Math.round(dialog.x || 0)}:${Math.round(dialog.y || 0)}:${String(dialog.name || "")}`;
+    return `${mapKey}:dialog:${idPart}`;
+  }
+
+  showDialogueOnce(key, text, durationMs = 2000) {
+    if (!key || !text) return false;
+    if (!this.game.seenDialogueMessages) this.game.seenDialogueMessages = new Set();
+    if (this.game.seenDialogueMessages.has(key)) return false;
+    this.game.seenDialogueMessages.add(key);
+    this.game.showDialogue(text, durationMs);
+    return true;
   }
 
   // Applies a new map, builds collisions/portals, and moves the player.
@@ -962,7 +983,7 @@ for (const portal of this.portals) {
   if (overlap && this.portalCooldown <= 0 && this.activePortalId !== portal.id) {
     if (this.isBedroomExitPortal(portal) && !this.canLeaveBedroom()) {
       if (this.isDoorInteractPressed()) {
-        this.game.showDialogue("I should check the window and grab a weapon first.", 2400);
+        this.showDialogueOnce(`${this.mapPath}:bedroom_exit_locked`, "I should check the window and grab a weapon first.", 2400);
       }
       this.portalCooldown = 0.35;
       continue;
@@ -976,7 +997,7 @@ for (const portal of this.portals) {
       if (!hasBethKey && !unlocked) {
         if (interactPressed) {
           this.game.hasTriedBethDoor = true;
-          this.game.showDialogue("The door is locked. I need a key.", 2300);
+          this.showDialogueOnce(`${this.mapPath}:beth_door_locked`, "The door is locked. I need a key.", 2300);
           this.portalCooldown = 0.4;
         }
         continue;
@@ -1007,7 +1028,7 @@ for (const portal of this.portals) {
       const hasKey = this.game.hasSewerKey;
 
       if (alive > 0 || !hasKey) {
-        this.game.showDialogue("I have to finish both objectives before leaving.", 2000);
+        this.showDialogueOnce(`${this.mapPath}:sewer_exit_blocked`, "I have to finish both objectives before leaving.", 2000);
         this.portalCooldown = 0.4;
         return;
       }
@@ -1026,7 +1047,9 @@ for (const portal of this.portals) {
 
   // --- dialog object logic ---
   for (const dialog of this.dialogs) {
+    const dialogKey = this.getDialogTriggerKey(dialog);
     if (this.usedTriggers.has(dialog.id)) continue;
+    if (this.game.seenDialogTriggers && this.game.seenDialogTriggers.has(dialogKey)) continue;
 
     const dialogRect = this.getTriggerRect(dialog);
     const overlap = rectsOverlap(playerBounds, dialogRect);
@@ -1038,6 +1061,8 @@ for (const portal of this.portals) {
       this.activeDialog = { text, timeLeftMs: durationMs };
       this.game.activeDialog = this.activeDialog;
       this.usedTriggers.add(dialog.id);
+      if (!this.game.seenDialogTriggers) this.game.seenDialogTriggers = new Set();
+      this.game.seenDialogTriggers.add(dialogKey);
 
       // mark window task complete
       const dialogName = String(dialog.name || "").toLowerCase();
@@ -1062,13 +1087,15 @@ for (const portal of this.portals) {
 
   // --- extra dialogueTriggers logic ---
   for (const trigger of this.dialogueTriggers || []) {
-    if (trigger.once && this.dialogueUsedGroups.has(trigger.group)) continue;
+    const groupKey = `${String(this.mapPath || "").toLowerCase()}:group:${trigger.group}`;
+    if (trigger.once && this.game.dialogueUsedGroupsGlobal && this.game.dialogueUsedGroupsGlobal.has(groupKey)) continue;
 
     if (rectsOverlap(playerBounds, trigger.rect)) {
       this.game.activeDialog = { text: trigger.text, timeLeftMs: 5000 };
 
       if (trigger.once) {
-        this.dialogueUsedGroups.add(trigger.group);
+        if (!this.game.dialogueUsedGroupsGlobal) this.game.dialogueUsedGroupsGlobal = new Set();
+        this.game.dialogueUsedGroupsGlobal.add(groupKey);
       }
       break;
     }
