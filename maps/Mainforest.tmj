@@ -1659,7 +1659,7 @@
                 {
                  "height":16,
                  "id":36,
-                 "name":"",
+                 "name":"zombie",
                  "properties":[
                         {
                          "name":"type",
@@ -1723,6 +1723,91 @@
                  "width":16,
                  "x":836.5,
                  "y":205
+                }, 
+                {
+                 "height":16,
+                 "id":63,
+                 "name":"zombie",
+                 "properties":[
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"zombie"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":105.333333333333,
+                 "y":295.333333333333
+                }, 
+                {
+                 "height":16,
+                 "id":65,
+                 "name":"zombie",
+                 "properties":[
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"zombie"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":504,
+                 "y":409.333333333333
+                }, 
+                {
+                 "height":16,
+                 "id":66,
+                 "name":"zombie",
+                 "properties":[
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"zombie"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":578.666666666667,
+                 "y":334.666666666667
+                }, 
+                {
+                 "height":16,
+                 "id":72,
+                 "name":"zombie",
+                 "properties":[
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"zombie"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":560,
+                 "y":626
+                }, 
+                {
+                 "height":16,
+                 "id":73,
+                 "name":"zombie",
+                 "properties":[
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"zombie"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":651.333333333333,
+                 "y":649.333333333333
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1854,7 +1939,7 @@
                 {
                  "height":0,
                  "id":37,
-                 "name":"",
+                 "name":"medkit",
                  "properties":[
                         {
                          "name":"type",
@@ -1871,7 +1956,7 @@
                 {
                  "height":0,
                  "id":38,
-                 "name":"",
+                 "name":"medkit",
                  "properties":[
                         {
                          "name":"type",
@@ -1888,7 +1973,7 @@
                 {
                  "height":0,
                  "id":39,
-                 "name":"",
+                 "name":"medkit",
                  "properties":[
                         {
                          "name":"type",
@@ -1901,6 +1986,91 @@
                  "width":0,
                  "x":250,
                  "y":114.666666666667
+                }, 
+                {
+                 "height":0,
+                 "id":62,
+                 "name":"medkit",
+                 "properties":[
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"medkit"
+                        }],
+                 "rotation":0,
+                 "type":"medkit",
+                 "visible":true,
+                 "width":0,
+                 "x":56.6666666666667,
+                 "y":279.333333333333
+                }, 
+                {
+                 "height":0,
+                 "id":64,
+                 "name":"medkit",
+                 "properties":[
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"medkit"
+                        }],
+                 "rotation":0,
+                 "type":"medkit",
+                 "visible":true,
+                 "width":0,
+                 "x":541.333333333333,
+                 "y":376.666666666667
+                }, 
+                {
+                 "height":16,
+                 "id":74,
+                 "name":"zombie",
+                 "properties":[
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"zombie"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":652,
+                 "y":798.5
+                }, 
+                {
+                 "height":16,
+                 "id":75,
+                 "name":"zombie",
+                 "properties":[
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"zombie"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":61.3333333333333,
+                 "y":736
+                }, 
+                {
+                 "height":16,
+                 "id":76,
+                 "name":"zombie",
+                 "properties":[
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"zombie"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":20,
+                 "x":204,
+                 "y":704
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1909,7 +2079,7 @@
          "y":0
         }],
  "nextlayerid":32,
- "nextobjectid":62,
+ "nextobjectid":77,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",
