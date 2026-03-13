@@ -383,6 +383,38 @@
                  "width":0,
                  "x":96.3333333333333,
                  "y":182
+                }, 
+                {
+                 "height":16,
+                 "id":13,
+                 "name":"StairSpawn",
+                 "properties":[
+                        {
+                         "name":"entity",
+                         "type":"string",
+                         "value":"player"
+                        }, 
+                        {
+                         "name":"facing",
+                         "type":"string",
+                         "value":"up"
+                        }, 
+                        {
+                         "name":"name ",
+                         "type":"string",
+                         "value":"StairSpawn"
+                        }, 
+                        {
+                         "name":"spawn_od",
+                         "type":"string",
+                         "value":"start"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":7.66666666666666,
+                 "y":4.33333333333333
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -391,7 +423,7 @@
          "y":0
         }],
  "nextlayerid":16,
- "nextobjectid":10,
+ "nextobjectid":14,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",

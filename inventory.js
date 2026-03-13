@@ -66,7 +66,7 @@ class Inventory {
       return "./Room/sewerkey.png";
     }
     if (itemId === "escape_key") {
-      return "./KeyFly/KeyFly1.jpeg";
+      return "./KeyFly/KeyFly1.png";
     }
     return null;
   }

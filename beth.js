@@ -14,7 +14,7 @@ class BethBoss {
     this.drawScale = 1.8;
 
     this.speed = 55;
-    this.damage = 5;
+    this.damage = 15;
 
     this.maxHealth = 220;
     this.health = 220;
@@ -94,22 +94,36 @@ dropEscapeKey() {
   const keyX = this.x + this.width / 2 - 16;
   const keyY = this.y + this.height - 40;
 
-  this.game.addEntity(new ItemPickup(this.game, this.player, {
+  const pickup = new ItemPickup(this.game, this.player, {
     x: keyX,
     y: keyY,
-    width: 32,
-    height: 32,
+    width: 48,
+    height: 48,
     itemId: "escape_key",
-    spritePath: "./KeyFly/KeyFly1.jpeg",
+    spritePath: "./KeyFly/KeyFly1.png",
     collectedKey: "bethboss:escape_key",
     animationFrames: [
-      "./KeyFly/KeyFly1.jpeg",
-      "./KeyFly/KeyFly2.jpeg",
-      "./KeyFly/KeyFly3.jpeg",
-      "./KeyFly/KeyFly4.jpeg"
+      "./KeyFly/KeyFly1.png",
+      "./KeyFly/KeyFly2.png",
+      "./KeyFly/KeyFly3.png",
+      "./KeyFly/KeyFly4.png"
     ],
-    frameDuration: 0.12
-  }));
+    frameDuration: 0.12,
+    pickupDelay: 0.75
+  });
+
+  this.game.addEntity(pickup);
+
+  // Keep MapManager last so map stays behind pickups/entities
+  const entities = this.game.entities || [];
+  const idx = entities.findIndex(
+    (e) => e && e.constructor && e.constructor.name === "MapManager"
+  );
+
+  if (idx !== -1) {
+    const mapManager = entities.splice(idx, 1)[0];
+    entities.push(mapManager);
+  }
 }
 
   takeDamage(amount) {

@@ -55,9 +55,9 @@
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            189, 190, 191, 0, 0, 0, 0, 0, 0, 0, 0,
-            214, 215, 216, 0, 0, 0, 0, 0, 0, 0, 0,
-            239, 240, 241, 0, 0, 0, 0, 0, 0, 0, 0],
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 189, 190,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 214, 215,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 239, 240],
          "height":11,
          "id":5,
          "name":"books",
@@ -65,6 +65,51 @@
          "type":"tilelayer",
          "visible":true,
          "width":11,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":9,
+         "name":"medkit",
+         "objects":[
+                {
+                 "height":0,
+                 "id":7,
+                 "name":"medkit",
+                 "properties":[
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"medkit"
+                        }],
+                 "rotation":0,
+                 "type":"medkit",
+                 "visible":true,
+                 "width":0,
+                 "x":77,
+                 "y":75
+                }, 
+                {
+                 "height":0,
+                 "id":8,
+                 "name":"medkit",
+                 "properties":[
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"medkit"
+                        }],
+                 "rotation":0,
+                 "type":"medkit",
+                 "visible":true,
+                 "width":0,
+                 "x":40.6666666666667,
+                 "y":130.333333333333
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
          "x":0,
          "y":0
         }, 
@@ -172,8 +217,8 @@
          "name":"portal",
          "objects":[
                 {
-                 "height":0,
-                 "id":5,
+                 "height":21,
+                 "id":9,
                  "name":"Housedoor",
                  "properties":[
                         {
@@ -184,7 +229,7 @@
                         {
                          "name":"targetSpawn",
                          "type":"string",
-                         "value":"houseSpawn"
+                         "value":"StairSpawn"
                         }, 
                         {
                          "name":"type",
@@ -194,9 +239,9 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":0,
-                 "x":165,
-                 "y":80.3333333333333
+                 "width":28,
+                 "x":148.666666666667,
+                 "y":154.666666666667
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -214,8 +259,8 @@
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            240, 240, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            240, 240, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
          "height":11,
          "id":7,
          "name":"Collision",
@@ -226,8 +271,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":9,
- "nextobjectid":6,
+ "nextlayerid":10,
+ "nextobjectid":10,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",
