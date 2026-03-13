@@ -3,6 +3,7 @@ class HintArrow {
     this.game = game;
     this.active = true;
     this.target = null;
+    this.prevCDown = false;
   }
 
   setTarget(x, y, label = "Objective") {
@@ -11,7 +12,6 @@ class HintArrow {
 
   clearTarget() {
     this.target = null;
-    this.active = true;
   }
 
   getMapManager() {
@@ -70,70 +70,83 @@ class HintArrow {
     });
   }
 
-update() {
-  const path = String(this.game.currentMapPath || "").toLowerCase();
-  const mapManager = this.getMapManager();
-  this.active = true;
+  update() {
+    const cDown = !!this.game.keys["c"];
+    const cPressed = cDown && !this.prevCDown;
 
-  // No guiding arrow on the starting bedroom map.
-  if (path.includes("bedroom") || path === "") {
-    this.clearTarget();
-    return;
-  }
-
-  // Objective phase:
-  // 1) Before checking Beth's door -> point to Beth's door.
-  // 2) After locked door check, before key -> point to sewer (or key when in sewer).
-  // 3) After key, before unlock -> point back to Beth's door.
-  if (!this.game.hasTriedBethDoor) {
-    const bethDoor = this.getBethDoorPoint(mapManager);
-    const toMain = this.getPortalToMainForest(mapManager);
-    if (bethDoor) {
-      this.setTarget(bethDoor.x, bethDoor.y, "Beth's Door");
-    } else if (toMain) {
-      this.setTarget(toMain.x, toMain.y, "Go Outside");
-    } else {
-      this.clearTarget();
+    if (cPressed) {
+      this.active = !this.active;
     }
-    return;
-  } else {
-    if (!this.game.hasSewerKey) {
-      if (path.includes("sewer")) {
-        const key = this.getKeyPickupWorldPoint();
-        if (key) {
-          this.setTarget(key.x, key.y, "Beth's Key");
-        } else {
-          this.clearTarget();
-        }
-      } else {
-        const sewerPortal = this.getSewerPortalPoint(mapManager);
-        const toMain = this.getPortalToMainForest(mapManager);
-        if (sewerPortal) {
-          this.setTarget(sewerPortal.x, sewerPortal.y, "Sewer");
-        } else if (toMain) {
-          this.setTarget(toMain.x, toMain.y, "Go Outside");
-        } else {
-          this.clearTarget();
-        }
-      }
+
+    this.prevCDown = cDown;
+
+    if (!this.active) {
+      this.target = null;
       return;
     }
 
-    if (!this.game.bethDoorUnlocked) {
+    const path = String(this.game.currentMapPath || "").toLowerCase();
+    const mapManager = this.getMapManager();
+
+    // No guiding arrow on the starting bedroom map.
+    if (path.includes("bedroom") || path === "") {
+      this.clearTarget();
+      return;
+    }
+
+    // Objective phase:
+    // 1) Before checking Beth's door -> point to Beth's door.
+    // 2) After locked door check, before key -> point to sewer (or key when in sewer).
+    // 3) After key, before unlock -> point back to Beth's door.
+    if (!this.game.hasTriedBethDoor) {
       const bethDoor = this.getBethDoorPoint(mapManager);
       const toMain = this.getPortalToMainForest(mapManager);
       if (bethDoor) {
-        this.setTarget(bethDoor.x, bethDoor.y, "Unlock Beth's Door");
+        this.setTarget(bethDoor.x, bethDoor.y, "Beth's Door");
       } else if (toMain) {
         this.setTarget(toMain.x, toMain.y, "Go Outside");
       } else {
         this.clearTarget();
       }
       return;
+    } else {
+      if (!this.game.hasSewerKey) {
+        if (path.includes("sewer")) {
+          const key = this.getKeyPickupWorldPoint();
+          if (key) {
+            this.setTarget(key.x, key.y, "Beth's Key");
+          } else {
+            this.clearTarget();
+          }
+        } else {
+          const sewerPortal = this.getSewerPortalPoint(mapManager);
+          const toMain = this.getPortalToMainForest(mapManager);
+          if (sewerPortal) {
+            this.setTarget(sewerPortal.x, sewerPortal.y, "Sewer");
+          } else if (toMain) {
+            this.setTarget(toMain.x, toMain.y, "Go Outside");
+          } else {
+            this.clearTarget();
+          }
+        }
+        return;
+      }
+
+      if (!this.game.bethDoorUnlocked) {
+        const bethDoor = this.getBethDoorPoint(mapManager);
+        const toMain = this.getPortalToMainForest(mapManager);
+        if (bethDoor) {
+          this.setTarget(bethDoor.x, bethDoor.y, "Unlock Beth's Door");
+        } else if (toMain) {
+          this.setTarget(toMain.x, toMain.y, "Go Outside");
+        } else {
+          this.clearTarget();
+        }
+        return;
+      }
     }
+    this.clearTarget();
   }
-  this.clearTarget();
-}
 
   draw(ctx) {
     if (!this.active || !this.target) return;
@@ -150,12 +163,12 @@ update() {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
 
     const arrowX = ctx.canvas.width - 70;
-    const arrowY = 140;
+    const arrowY = 150;
 
     ctx.translate(arrowX, arrowY);
     ctx.rotate(angle);
-    ctx.scale(1.3, 1.3);
-   // prettier arrow
+    ctx.scale(1.0, 1.0);
+    // prettier arrow
     ctx.shadowColor = "rgba(0, 0, 0, 0.45)";
     ctx.shadowBlur = 8;
     ctx.shadowOffsetX = 2;
@@ -193,7 +206,7 @@ update() {
     ctx.save();
     ctx.setTransform(1, 0, 0, 1, 0, 0);
 
-    ctx.font = "14px monospace";
+    ctx.font = "12px monospace";
     ctx.textAlign = "center";
     ctx.textBaseline = "top";
     ctx.fillStyle = "rgba(255,255,255,0.95)";
