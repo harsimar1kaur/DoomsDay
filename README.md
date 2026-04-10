@@ -105,15 +105,5 @@ If you add a debug flag (example: `game.debug = true`), useful debug displays:
 
 ---
 
-## TODO / Next Steps
-
-- Fix zombie visibility + spawning
-- Connect zombie attack -> player takeDamage -> health bar update
-- Implement real pause (stop updates, allow resume/restart)
-- Clean up duplicate / conflicting dialog logic in `tilemap.js`
-- Remove duplicate `resolveMapAssetPath` if present
-
----
-
 ## Credits
-Built by (Your Name / Team Name)
+Built by Harsimar Kaur, MD Sumsuzzaman Khan, & Tahmid Rafi
